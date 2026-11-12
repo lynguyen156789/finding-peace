@@ -42,5 +42,15 @@
   "dish.fish.eat": "Cá kho để qua đêm lại càng thấm.",
   "dish.noodle.cook": "Hôm nay lười, nấu bát mì trứng cho nhanh.",
   "dish.noodle.eat": "Húp một ngụm nước, ấm cả người.",
-  "eat.none": "Chưa nấu gì cả. Mình ăn tạm chút đồ còn trong tủ."
+  "eat.none": "Chưa nấu gì cả. Mình ăn tạm chút đồ còn trong tủ.",
+  "dish.egg-meat.cook": "Trứng đúc thịt, thêm bát canh rau ngót.",
+  "dish.egg-meat.eat": "Trứng đúc thịt mềm, thơm mùi hành.",
+  "dish.boiled-pork.cook": "Thịt luộc chấm mắm tôm, ăn với cà muối.",
+  "dish.boiled-pork.eat": "Đơn giản thôi mà ăn lại thấy nhớ nhà.",
+  "dish.porridge.cook": "Trời se se, nấu nồi cháo thịt bằm cho ấm bụng.",
+  "dish.porridge.eat": "Cháo nóng hổi, thêm tí hạt tiêu. Dễ chịu quá.",
+  "dish.sour-fish.cook": "Canh chua cá, ăn mát lòng ngày dài.",
+  "dish.sour-fish.eat": "Chua chua ngọt ngọt, đúng vị.",
+  "dish.glass-noodle.cook": "Miến xào trứng, làm nhanh gọn.",
+  "dish.glass-noodle.eat": "Miến dai dai, thơm mùi hành phi."
 }

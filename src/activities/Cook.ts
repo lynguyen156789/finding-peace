@@ -22,6 +22,11 @@ export const DISHES: Dish[] = [
   { id: "pork", kind: "fry" },
   { id: "fish", kind: "fry" },
   { id: "noodle", kind: "soup" },
+  { id: "egg-meat", kind: "fry" },
+  { id: "boiled-pork", kind: "fry" },
+  { id: "porridge", kind: "soup" },
+  { id: "sour-fish", kind: "soup" },
+  { id: "glass-noodle", kind: "fry" },
 ];
 
 export const randomDish = (): Dish => DISHES[Math.floor(Math.random() * DISHES.length)];
