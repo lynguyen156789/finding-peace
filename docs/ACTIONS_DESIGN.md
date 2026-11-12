@@ -130,3 +130,9 @@ Mỗi tư thế sinh từ bảng nhân vật đã chọn, tách nền bằng `to
 5. TV có chọn ba chương trình hay chỉ một cảnh ngồi xem?
 7. Nấu ăn có **một lựa chọn trước clip** (chọn món) có được không, hay game tự chọn món theo nguyên liệu và ngày, người chơi không chọn gì?
 6. Thứ tự làm: mình đề xuất **ngủ → xem TV → tưới cây → nấu và rửa bát**, vì nấu và rửa bát cần nhiều tranh nhất.
+
+
+## Cập nhật: nấu ngẫu nhiên + ăn cơm (2026-11-12)
+- Nấu: ngẫu nhiên 1 trong 5 món (cơm trứng canh cải, đậu sốt cà chua, thịt rang, cá kho, mì trứng); khung chuẩn bị + chiên/xào hoặc nấu nồi + khay món (tray-*.webp).
+- Ăn (bàn ăn): khay món vừa nấu → nhân vật ngồi ăn (eat-{gender}.webp); chưa nấu thì món ngẫu nhiên.
+- Thoại cực ít: chỉ 1 câu độc thoại mỗi cảnh. Chưa làm: rửa bát.

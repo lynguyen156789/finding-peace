@@ -21,7 +21,7 @@ export async function runWatering(gender: Gender, dialogue: Dialogue): Promise<(
   const { wrap, black, show } = openCutscene();
 
   await show(file(gender, "start"), 800);
-  await dialogue.show(t("water.start"));
+  await wait(1200);
   await show(file(gender, "end"), 2000); // tưới xong: cây tươi, hoa nở, nhân vật cầm bình
   await dialogue.show(t("water.pour"));
   await wait(400);

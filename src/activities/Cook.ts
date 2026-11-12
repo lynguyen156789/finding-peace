@@ -5,31 +5,46 @@ import { fadeTo, openCutscene, preloadImages, wait } from "./Cutscene";
 
 /**
  * Clip nấu ăn (cảnh bếp riêng), tự chạy từ đầu đến cuối, không có nút bỏ qua.
- * Bữa tối cho một người: cơm + trứng chiên + canh cải. Chuỗi tranh chuyển mờ chậm:
- *   1 chuẩn bị rau, trứng → 2 chiên trứng → 3 nấu canh → 4 khay cơm thành phẩm.
- * Lời thoại là độc thoại, chữ trắng ở dưới màn hình.
+ * Mỗi lần nấu ngẫu nhiên một món. Chuỗi tranh chuyển mờ chậm:
+ *   1 chuẩn bị → 2 chiên/xào (món mặn) hoặc 3 nấu nước (món canh/mì/cháo) → khay món thành phẩm.
+ * Chỉ một câu độc thoại ở đầu (nói tên món), còn lại để hình kể.
  */
 
-const STEPS = [
-  { img: (g: Gender) => `cook-${g}-1.webp`, say: "cook.start", fade: 800, hold: 0 },
-  { img: (g: Gender) => `cook-${g}-2.webp`, say: "cook.fry", fade: 1400, hold: 0 },
-  { img: (g: Gender) => `cook-${g}-3.webp`, say: "cook.soup", fade: 1400, hold: 0 },
-  { img: () => "cook-tray.webp", say: "cook.done", fade: 1600, hold: 1200 },
-];
-
-export function prepareCooking(gender: Gender): void {
-  preloadImages(STEPS.map((s) => s.img(gender)));
+export interface Dish {
+  id: string;
+  /** fry: chiên/xào ở chảo; soup: nấu ở nồi. */
+  kind: "fry" | "soup";
 }
 
-export async function runCooking(gender: Gender, dialogue: Dialogue): Promise<() => Promise<void>> {
+export const DISHES: Dish[] = [
+  { id: "egg-canh", kind: "fry" },
+  { id: "tofu", kind: "fry" },
+  { id: "pork", kind: "fry" },
+  { id: "fish", kind: "fry" },
+  { id: "noodle", kind: "soup" },
+];
+
+export const randomDish = (): Dish => DISHES[Math.floor(Math.random() * DISHES.length)];
+export const dishById = (id: string): Dish => DISHES.find((d) => d.id === id) ?? DISHES[0];
+export const trayFile = (d: Dish) => (d.id === "egg-canh" ? "cook-tray.webp" : `tray-${d.id}.webp`);
+
+const stepFile = (g: Gender, n: number) => `cook-${g}-${n}.webp`;
+
+export function prepareCooking(gender: Gender): void {
+  preloadImages([1, 2, 3].map((n) => stepFile(gender, n)));
+  preloadImages(DISHES.map(trayFile));
+}
+
+export async function runCooking(gender: Gender, dish: Dish, dialogue: Dialogue): Promise<() => Promise<void>> {
   prepareCooking(gender);
   const { wrap, black, show } = openCutscene();
 
-  for (const s of STEPS) {
-    await show(s.img(gender), s.fade);
-    await dialogue.show(t(s.say));
-    if (s.hold) await wait(s.hold);
-  }
+  await show(stepFile(gender, 1), 800);
+  await dialogue.show(t(`dish.${dish.id}.cook`));
+  await show(stepFile(gender, dish.kind === "fry" ? 2 : 3), 1400);
+  await wait(1200);
+  await show(trayFile(dish), 1600);
+  await wait(1800);
   await fadeTo(black, 1, 800);
 
   // Màn đang đen hoàn toàn: bên gọi cập nhật ngày/giờ rồi gọi reveal() để mờ về căn hộ.

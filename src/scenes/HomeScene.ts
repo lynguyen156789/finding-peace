@@ -8,7 +8,8 @@ import { t } from "../core/i18n";
 import { prepareWatering, runWatering } from "../activities/Watering";
 import { prepareSleep, runSleep } from "../activities/Sleep";
 import { runWatchTv } from "../activities/WatchTv";
-import { prepareCooking, runCooking } from "../activities/Cook";
+import { Dish, dishById, prepareCooking, randomDish, runCooking } from "../activities/Cook";
+import { prepareEating, runEating } from "../activities/Eat";
 import { Dialogue } from "../ui/Dialogue";
 import { ClockIcon } from "../ui/ClockIcon";
 
@@ -26,6 +27,8 @@ export class HomeScene extends Phaser.Scene {
   private dialogue!: Dialogue;
   private clock!: ClockIcon;
   private busy = false;
+  /** Món vừa nấu (để ăn đúng món đó); chưa nấu thì ăn món ngẫu nhiên. */
+  private lastDish: Dish | null = null;
 
   constructor() {
     super("Home");
@@ -37,6 +40,7 @@ export class HomeScene extends Phaser.Scene {
       prepareSleep(this.state.gender); // tải trước tranh các cảnh riêng
       prepareWatering(this.state.gender);
       prepareCooking(this.state.gender);
+      prepareEating(this.state.gender);
     }
     this.apt = aptData.apartments[String(this.state.apartment) as keyof typeof aptData.apartments];
 
@@ -104,7 +108,16 @@ export class HomeScene extends Phaser.Scene {
     }
 
     if (h.action === "cook") {
-      await this.doCutscene(h, () => runCooking(this.state.gender!, this.dialogue));
+      const dish = randomDish();
+      this.lastDish = dish;
+      await this.doCutscene(h, () => runCooking(this.state.gender!, dish, this.dialogue));
+      return;
+    }
+
+    if (h.action === "eat") {
+      const dish = this.lastDish ?? dishById(randomDish().id);
+      await this.doCutscene(h, () => runEating(this.state.gender!, dish, this.dialogue));
+      this.lastDish = null;
       return;
     }
 

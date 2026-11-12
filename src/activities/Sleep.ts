@@ -24,19 +24,18 @@ export async function runSleep(gender: Gender, full: boolean, dialogue: Dialogue
   const { wrap, black, show } = openCutscene();
 
   await show(file(gender, 1), 700); // ngồi ở mép giường, đèn ngủ sáng
-  await dialogue.show(t("sleep.sit"));
+  await wait(900);
   await show(file(gender, 2), 1000); // nằm xuống
-  await dialogue.show(t("sleep.lie"));
+  await wait(700);
   await show(file(gender, 3), 900); // chăn kéo tới ngực
   await show(file(gender, 4), 1100); // chăn kéo tới vai
-  await dialogue.show(t(full ? "sleep.covered" : "sleep.rest"));
 
   if (full) {
     await show(file(gender, 5), 1800); // nhắm mắt, đèn tắt, chỉ còn ánh trăng
     await dialogue.show(t("sleep.eyes_closed"));
     await fadeTo(black, 1, 900);
   } else {
-    await wait(300);
+    await dialogue.show(t("sleep.rest"));
     await fadeTo(black, 1, 500);
   }
 
