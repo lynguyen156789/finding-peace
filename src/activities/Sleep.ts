@@ -3,9 +3,9 @@ import { Gender } from "../core/GameState";
 import { t } from "../core/i18n";
 import { Dialogue } from "../ui/Dialogue";
 
-export const SLEEP_FRAMES = 4;
+export const SLEEP_FRAMES = 5;
 
-/** Nạp 4 tranh cảnh ngủ của nhân vật đã chọn (gọi trong preload). */
+/** Nạp 5 tranh cảnh ngủ của nhân vật đã chọn (gọi trong preload). */
 export function loadSleepFrames(scene: Phaser.Scene, gender: Gender): void {
   for (let i = 1; i <= SLEEP_FRAMES; i++) {
     scene.load.image(`sleep-${gender}-${i}`, `assets/cutscenes/sleep-${gender}-${i}.webp`);
@@ -16,7 +16,7 @@ const D = 20000; // phủ lên cả cảnh căn hộ
 
 /**
  * Clip ngủ, tự chạy từ đầu đến cuối, không có nút bỏ qua và người chơi không phải làm gì:
- * ngồi mép giường → nằm xuống → đắp chăn → nhắm mắt, tắt đèn.
+ * ngồi mép giường → nằm xuống → chăn kéo lên từng bước → nhắm mắt, tắt đèn.
  * full = false là "nghỉ một lát" ban ngày: dừng sau khi đắp chăn, không tắt đèn.
  */
 export async function runSleep(
@@ -34,14 +34,15 @@ export async function runSleep(
     new Promise<void>((res) => scene.tweens.add({ targets, ...props, duration, onComplete: () => res() }));
   const caption = (key: string) => dialogue.show(t(key));
 
-  await tween(frames[0], { alpha: 1 }, 700); // 1. ngồi ở mép giường, đèn ngủ sáng
+  await tween(frames[0], { alpha: 1 }, 700); // 1. ngồi ở mép giường (đi dép), đèn ngủ sáng
   await caption("sleep.sit");
-  await tween(frames[1], { alpha: 1 }, 1000); // 2. nằm xuống
+  await tween(frames[1], { alpha: 1 }, 1000); // 2. nằm xuống, chân trần, dép để dưới sàn
   await caption("sleep.lie");
-  await tween(frames[2], { alpha: 1 }, 1200); // 3. chăn tự kéo lên tới vai
+  await tween(frames[2], { alpha: 1 }, 900); // 3. chăn kéo tới ngực (ảnh liền kề nên chuyển mờ không bị chồng)
+  await tween(frames[3], { alpha: 1 }, 1100); // 4. chăn kéo tới vai
   await caption(full ? "sleep.covered" : "sleep.rest");
   if (full) {
-    await tween(frames[3], { alpha: 1 }, 1600); // 4. nhắm mắt, đèn tắt, ánh trăng
+    await tween(frames[4], { alpha: 1 }, 1600); // 5. nhắm mắt, đèn tắt, ánh trăng
     await caption("sleep.eyes_closed");
   }
   await tween(black, { fillAlpha: 1 }, full ? 900 : 500);
