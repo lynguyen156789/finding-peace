@@ -6,7 +6,7 @@ import { GameState } from "../core/GameState";
 import { loadGame, saveGame } from "../core/Save";
 import { t } from "../core/i18n";
 import { runWatering } from "../activities/Watering";
-import { loadSleepFrames, runSleep } from "../activities/Sleep";
+import { prepareSleepClips, runSleep } from "../activities/Sleep";
 import { runWatchTv } from "../activities/WatchTv";
 import { Dialogue } from "../ui/Dialogue";
 import { ClockIcon } from "../ui/ClockIcon";
@@ -30,13 +30,9 @@ export class HomeScene extends Phaser.Scene {
     super("Home");
   }
 
-  preload(): void {
-    const s = loadGame();
-    if (s.gender) loadSleepFrames(this, s.gender); // tranh cảnh ngủ của nhân vật đã chọn
-  }
-
   create(): void {
     this.state = loadGame();
+    if (this.state.gender) prepareSleepClips(this.state.gender); // tải trước video cảnh ngủ
     this.apt = aptData.apartments[String(this.state.apartment) as keyof typeof aptData.apartments];
 
     this.add.image(640, 360, `apt-${this.state.apartment}`).setDisplaySize(1280, 720).setDepth(-1000);
@@ -51,7 +47,7 @@ export class HomeScene extends Phaser.Scene {
 
     this.input.on("pointerdown", (p: Phaser.Input.Pointer) => this.onTap(p.worldX, p.worldY));
 
-    void this.say(t("intro.wake") + " " + t("tap.hint"));
+    void this.say(t("intro.wake"));
   }
 
   /** Đổi rect theo ảnh gốc sang tọa độ khung game. */
@@ -119,7 +115,7 @@ export class HomeScene extends Phaser.Scene {
   /** Giường: ban đêm là đi ngủ (đủ 4 khung), ban ngày là nghỉ một lát (dừng sau khi đắp chăn). */
   private async doSleep(h: Hotspot): Promise<void> {
     const full = this.state.slot === 3;
-    const reveal = await runSleep(this, this.state.gender!, full, this.dialogue);
+    const reveal = await runSleep(this.state.gender!, full, this.dialogue);
     const newDay = await this.finishSlot(h, false); // màn đang đen, đổi giờ/ngày ở đây rồi mới mờ về
     await reveal();
     if (newDay) await this.dialogue.show(t("day.new", { day: this.state.day }));

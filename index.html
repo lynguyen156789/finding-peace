@@ -13,17 +13,21 @@
       #ui { position: absolute; inset: 0; pointer-events: none; font-family: "Lora", "Times New Roman", serif; color: #4a3626; }
       #ui img { display: block; }
 
+      /* Lời thoại là độc thoại của nhân vật: chỉ có chữ trắng ở dưới màn hình, không có khung. */
       #ui .dialogue {
-        position: absolute; left: 50%; bottom: 3%; width: 74%; transform: translate(-50%, 8px);
-        aspect-ratio: 1280 / 236; box-sizing: border-box; padding: 0 8%;
-        background: url(assets/ui/dialogue.webp) center / 100% 100% no-repeat;
-        display: flex; align-items: center;
-        font-size: 2.2cqw; line-height: 1.45;
-        pointer-events: none; opacity: 0; transition: opacity .25s, transform .25s;
+        position: absolute; left: 50%; bottom: 5%; width: 76%; transform: translate(-50%, 6px);
+        text-align: center; color: #fff; font-size: 2.5cqw; line-height: 1.45; letter-spacing: .01em;
+        text-shadow: 0 0 .5cqw rgba(0, 0, 0, .9), 0 0 1.4cqw rgba(0, 0, 0, .75), 0 .2cqw .4cqw rgba(0, 0, 0, .9);
+        pointer-events: none; opacity: 0; transition: opacity .35s, transform .35s; z-index: 10;
       }
       #ui .dialogue.show { opacity: 1; transform: translate(-50%, 0); }
 
-      #ui .clock { position: absolute; top: 3%; left: 2.5%; width: 7.5%; }
+      #ui .clock { position: absolute; top: 3%; left: 2.5%; width: 7.5%; z-index: 6; }
+
+      /* Cảnh riêng (video và ảnh) phủ lên canvas; lời thoại luôn nằm trên cùng. */
+      #ui .cutscene { position: absolute; inset: 0; z-index: 5; }
+      #ui .cut-layer { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      #ui .cut-black { position: absolute; inset: 0; background: #000; }
 
       #ui .setup-start {
         border: 0; padding: 0; background: url(assets/ui/button.webp) center / 100% 100% no-repeat;
