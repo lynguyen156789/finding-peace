@@ -35,8 +35,14 @@ export const trayFile = (d: Dish) => (d.id === "egg-canh" ? "cook-tray.webp" : `
 
 const stepFile = (g: Gender, n: number) => `cook-${g}-${n}.webp`;
 
+/** Món đã có tranh nấu riêng (cook-{gender}-{id}.webp); món khác dùng tranh chiên/nấu chung. */
+const OWN_FRAME = ["egg-meat", "boiled-pork", "porridge", "sour-fish", "glass-noodle"];
+const cookFrame = (g: Gender, d: Dish) =>
+  OWN_FRAME.includes(d.id) ? `cook-${g}-${d.id}.webp` : stepFile(g, d.kind === "fry" ? 2 : 3);
+
 export function prepareCooking(gender: Gender): void {
   preloadImages([1, 2, 3].map((n) => stepFile(gender, n)));
+  preloadImages(OWN_FRAME.map((id) => `cook-${gender}-${id}.webp`));
   preloadImages(DISHES.map(trayFile));
 }
 
@@ -46,7 +52,7 @@ export async function runCooking(gender: Gender, dish: Dish, dialogue: Dialogue)
 
   await show(stepFile(gender, 1), 800);
   await dialogue.show(t(`dish.${dish.id}.cook`));
-  await show(stepFile(gender, dish.kind === "fry" ? 2 : 3), 1400);
+  await show(cookFrame(gender, dish), 1400);
   await wait(1200);
   await show(trayFile(dish), 1600);
   await wait(1800);
