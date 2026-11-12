@@ -38,8 +38,8 @@ export class SetupScene extends Phaser.Scene {
     for (const [id, c] of Object.entries(CHARACTERS)) {
       const card = el("div", "card card-char");
       const face = el("div", "char-face");
-      face.style.backgroundImage = `url(${c.sheet})`;
-      face.style.aspectRatio = `${c.frameWidth} / ${c.frameHeight}`;
+      face.style.backgroundImage = `url(${c.front.sheet})`;
+      face.style.aspectRatio = `${c.front.frameWidth} / ${c.front.frameHeight}`;
       face.style.backgroundSize = "700% 100%"; // 7 khung, chỉ hiện khung 0 (đứng yên)
       card.appendChild(face);
       const name = el("span", "card-name");

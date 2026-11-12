@@ -31,10 +31,27 @@ def main() -> None:
     keep = np.isin(lab, [i + 1 for i, s in enumerate(sizes) if s > 1500])
     fg = ndi.binary_fill_holes(keep)
 
-    # Viền: co mask 2px rồi làm mềm 1px, để không còn quầng màu giấy quanh nhân vật.
-    core = ndi.binary_erosion(fg, iterations=2)
-    alpha = ndi.gaussian_filter(core.astype(np.float32), sigma=1.0)
-    alpha = np.clip(alpha * 1.25 - 0.1, 0, 1)
+    # Kẽ giấy kẹt giữa các sợi tóc (màu y như nền, nằm sát mép ngoài, ở nửa trên thân) thì bỏ đi.
+    # Không áp dụng cho nửa dưới để giữ giày trắng.
+    ys_all = np.where(fg.any(axis=1))[0]
+    y_cut = ys_all.min() + int((ys_all.max() - ys_all.min()) * 0.62)
+    near_edge = ndi.distance_transform_edt(fg) < 16
+    lum = img.mean(axis=2)
+    lowsat = (img.max(axis=2) - img.min(axis=2)) < 22  # giấy gần như không có sắc; da, áo kem thì có
+    pockets = fg & near_edge & ((dist < 14) | (lowsat & (lum > 135)))
+    pockets[y_cut:, :] = False
+    fg = fg & ~pockets
+    fg = ndi.binary_opening(fg, iterations=1)
+
+    # Khử quầng giấy: các điểm sát mép bị lẫn màu giấy, nên lấy màu của điểm gần nhất nằm sâu bên trong
+    # nhân vật (core) thay vào; còn độ trong suốt lấy từ mask đã làm mềm nhẹ.
+    core = ndi.binary_erosion(fg, iterations=3)
+    _, idx = ndi.distance_transform_edt(~core, return_indices=True)
+    nearest = img[idx[0], idx[1]]
+    band = ndi.binary_dilation(fg, iterations=2) & ~core
+    img = np.where(band[..., None], nearest, img)
+    soft = ndi.gaussian_filter(fg.astype(np.float32), sigma=0.9)
+    alpha = np.clip((soft - 0.3) / 0.45, 0, 1)
 
     # Chia thành n_frames cụm theo các khoảng trống lớn nhất trên trục x.
     cols = fg.any(axis=0)
