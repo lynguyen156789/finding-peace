@@ -5,6 +5,7 @@ import { SLOT_TINT, advanceSlot } from "../core/Clock";
 import { GameState } from "../core/GameState";
 import { loadGame, saveGame } from "../core/Save";
 import { t } from "../core/i18n";
+import { runWatering } from "../activities/Watering";
 import { Dialogue } from "../ui/Dialogue";
 import { ClockIcon } from "../ui/ClockIcon";
 
@@ -62,6 +63,11 @@ export class RoomScene extends Phaser.Scene {
   private async doActivity(h: Hotspot): Promise<void> {
     this.busy = true;
     await this.player.walkTo(h.stand[0], h.stand[1]);
+
+    if (h.activity === "water") {
+      const [x, y, w, hh] = h.rect;
+      await runWatering(this, { x, y, w, h: hh }, document.getElementById("ui")!);
+    }
 
     const sleeping = h.id === "bed" && this.state.slot === 3;
     await this.dialogue.show(t(sleeping ? "hotspot.bed.sleep" : h.textKey));

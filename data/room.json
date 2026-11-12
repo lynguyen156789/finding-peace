@@ -4,7 +4,7 @@
   "hotspots": [
     { "id": "bed",    "rect": [17, 205, 477, 267],  "stand": [520, 480], "textKey": "hotspot.bed.rest",  "moment": "room.bed.rest" },
     { "id": "desk",   "rect": [686, 300, 197, 144], "stand": [760, 470], "textKey": "hotspot.desk",      "moment": "room.desk" },
-    { "id": "plant",  "rect": [925, 294, 111, 195], "stand": [900, 500], "textKey": "hotspot.plant",     "moment": "room.plant" },
+    { "id": "plant",  "rect": [925, 294, 111, 195], "stand": [900, 500], "textKey": "hotspot.plant",     "moment": "room.plant", "activity": "water" },
     { "id": "window", "rect": [872, 53, 156, 236],  "stand": [900, 470], "textKey": "hotspot.window",    "moment": "room.window" },
     { "id": "rack",   "rect": [1111, 205, 150, 256], "stand": [1100, 490], "textKey": "hotspot.rack",     "moment": "room.rack" }
   ]

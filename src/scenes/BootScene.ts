@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { makeCharacterTexture } from "../entities/Character";
+import { makeCharacterTextures } from "../entities/Character";
 
 export class BootScene extends Phaser.Scene {
   constructor() {
@@ -7,11 +7,11 @@ export class BootScene extends Phaser.Scene {
   }
 
   preload(): void {
-    this.load.image("room", "assets/room-landscape.png");
+    this.load.image("room", "assets/room.webp");
   }
 
   create(): void {
-    makeCharacterTexture(this);
+    makeCharacterTextures(this);
     this.scene.start("Room");
   }
 }
