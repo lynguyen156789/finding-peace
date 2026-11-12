@@ -19,17 +19,16 @@
         background: url(assets/ui/dialogue.webp) center / 100% 100% no-repeat;
         display: flex; align-items: center;
         font-size: 2.2cqw; line-height: 1.45;
-        pointer-events: none; cursor: pointer; opacity: 0; transition: opacity .25s, transform .25s;
+        pointer-events: none; opacity: 0; transition: opacity .25s, transform .25s;
       }
-      #ui .dialogue.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+      #ui .dialogue.show { opacity: 1; transform: translate(-50%, 0); }
 
       #ui .clock { position: absolute; top: 3%; left: 2.5%; width: 7.5%; }
 
-      #ui .quick, #ui .setup-start {
+      #ui .setup-start {
         border: 0; padding: 0; background: url(assets/ui/button.webp) center / 100% 100% no-repeat;
         aspect-ratio: 360 / 155; color: #4a3626; font: inherit; cursor: pointer; pointer-events: auto;
       }
-      #ui .quick { position: absolute; top: 3%; right: 2.5%; width: 15%; font-size: 2cqw; }
 
       #ui .setup { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2.2cqw; }
       #ui .setup-title {

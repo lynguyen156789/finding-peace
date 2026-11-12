@@ -1,16 +1,42 @@
 {
-  "_note": "Mỗi nhân vật có 2 spritesheet 7 khung: khung 0 là đứng yên, khung 1-6 là chu kỳ bước. 'side' nhìn ngang (nhìn sang phải, game lật khi đi trái); 'front' chính diện (đi về phía người chơi). Tạo bằng tools/slice_sprites.py.",
+  "_note": "Mỗi nhân vật có 2 spritesheet 7 khung: khung 0 là đứng yên, khung 1-6 là chu kỳ bước. 'side' nhìn ngang (nhìn sang phải, game lật khi đi trái); 'front' chính diện (đi về phía người chơi). Tạo bằng tools/slice_sprites.py. 'sit' là 3 khung ngồi sofa: 0 ngồi xem, 1 cầm tách trà, 2 ngủ gật.",
   "walkFps": 7,
   "characters": {
     "female": {
       "nameKey": "setup.female",
-      "side":  { "sheet": "assets/characters/female-walk.webp",  "frameWidth": 235, "frameHeight": 480 },
-      "front": { "sheet": "assets/characters/female-front.webp", "frameWidth": 181, "frameHeight": 480 }
+      "side": {
+        "sheet": "assets/characters/female-walk.webp",
+        "frameWidth": 235,
+        "frameHeight": 480
+      },
+      "front": {
+        "sheet": "assets/characters/female-front.webp",
+        "frameWidth": 181,
+        "frameHeight": 480
+      },
+      "sit": {
+        "sheet": "assets/characters/female-sit.webp",
+        "frameWidth": 267,
+        "frameHeight": 480
+      }
     },
     "male": {
       "nameKey": "setup.male",
-      "side":  { "sheet": "assets/characters/male-walk.webp",  "frameWidth": 256, "frameHeight": 480 },
-      "front": { "sheet": "assets/characters/male-front.webp", "frameWidth": 173, "frameHeight": 480 }
+      "side": {
+        "sheet": "assets/characters/male-walk.webp",
+        "frameWidth": 256,
+        "frameHeight": 480
+      },
+      "front": {
+        "sheet": "assets/characters/male-front.webp",
+        "frameWidth": 173,
+        "frameHeight": 480
+      },
+      "sit": {
+        "sheet": "assets/characters/male-sit.webp",
+        "frameWidth": 248,
+        "frameHeight": 480
+      }
     }
   }
 }

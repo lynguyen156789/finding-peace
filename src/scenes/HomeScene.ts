@@ -6,6 +6,8 @@ import { GameState } from "../core/GameState";
 import { loadGame, saveGame } from "../core/Save";
 import { t } from "../core/i18n";
 import { runWatering } from "../activities/Watering";
+import { loadSleepFrames, runSleep } from "../activities/Sleep";
+import { runWatchTv } from "../activities/WatchTv";
 import { Dialogue } from "../ui/Dialogue";
 import { ClockIcon } from "../ui/ClockIcon";
 
@@ -26,6 +28,11 @@ export class HomeScene extends Phaser.Scene {
 
   constructor() {
     super("Home");
+  }
+
+  preload(): void {
+    const s = loadGame();
+    if (s.gender) loadSleepFrames(this, s.gender); // tranh cảnh ngủ của nhân vật đã chọn
   }
 
   create(): void {
@@ -54,11 +61,7 @@ export class HomeScene extends Phaser.Scene {
   }
 
   private onTap(x: number, y: number): void {
-    if (this.dialogue.isOpen) {
-      this.dialogue.close(); // chạm bất kỳ đâu để đóng hộp thoại
-      return;
-    }
-    if (this.busy) return;
+    if (this.dialogue.isOpen || this.busy) return; // clip tự chạy, không bỏ qua được
 
     const hotspot = (this.apt.hotspots as Hotspot[]).find((h) => {
       const r = this.rectOf(h);
@@ -79,23 +82,58 @@ export class HomeScene extends Phaser.Scene {
     const f = aptData.floor;
     await this.player.walkTo(Phaser.Math.Clamp(r.x + r.w / 2, f.minX, f.maxX), f.standY);
 
-    if (h.activity === "water") {
-      await runWatering(this, r, document.getElementById("ui")!);
+    if (h.action === "sleep") {
+      await this.doSleep(h);
+      return;
     }
 
-    const sleeping = h.id === "bed" && this.state.slot === 3;
-    await this.dialogue.show(t(sleeping ? "hotspot.bed.sleep" : h.textKey));
+    if (h.action === "watch") {
+      await runWatchTv(this, {
+        gender: this.state.gender!,
+        seat: this.apt.sofa,
+        tv: this.apt.tv,
+        slot: this.state.slot,
+        variant: this.state.day + this.state.slot,
+        player: this.player,
+        dialogue: this.dialogue,
+      });
+      await this.finishSlot(h, true);
+      this.busy = false;
+      return;
+    }
+
+    if (h.activity === "water") {
+      await runWatering(this, r);
+    }
+
+    await this.dialogue.show(t(h.textKey));
 
     if (h.advance === false) {
       this.busy = false;
       return;
     }
+    await this.finishSlot(h, true);
+    this.busy = false;
+  }
+
+  /** Giường: ban đêm là đi ngủ (đủ 4 khung), ban ngày là nghỉ một lát (dừng sau khi đắp chăn). */
+  private async doSleep(h: Hotspot): Promise<void> {
+    const full = this.state.slot === 3;
+    const reveal = await runSleep(this, this.state.gender!, full, this.dialogue);
+    const newDay = await this.finishSlot(h, false); // màn đang đen, đổi giờ/ngày ở đây rồi mới mờ về
+    await reveal();
+    if (newDay) await this.dialogue.show(t("day.new", { day: this.state.day }));
+    this.busy = false;
+  }
+
+  /** Ghi khoảnh khắc, sang khung giờ kế, tự lưu. Trả về true nếu sang ngày mới. */
+  private async finishSlot(h: Hotspot, animate: boolean): Promise<boolean> {
     if (h.moment && !this.state.moments.includes(h.moment)) this.state.moments.push(h.moment);
     const newDay = advanceSlot(this.state);
     saveGame(this.state);
-    this.applyTime(true);
-    if (newDay) await this.dialogue.show(t("day.new", { day: this.state.day }));
-    this.busy = false;
+    this.applyTime(animate);
+    if (animate && newDay) await this.dialogue.show(t("day.new", { day: this.state.day }));
+    return newDay;
   }
 
   private async say(text: string): Promise<void> {

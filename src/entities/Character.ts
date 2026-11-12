@@ -7,7 +7,7 @@ export const CHARACTERS = charData.characters;
 /** Nạp spritesheet (nhìn ngang và chính diện) của cả hai nhân vật. Gọi trong preload. */
 export function loadCharacterSheets(scene: Phaser.Scene): void {
   for (const [id, c] of Object.entries(CHARACTERS)) {
-    for (const view of ["side", "front"] as const) {
+    for (const view of ["side", "front", "sit"] as const) {
       const v = c[view];
       scene.load.spritesheet(`char-${id}-${view}`, v.sheet, { frameWidth: v.frameWidth, frameHeight: v.frameHeight });
     }

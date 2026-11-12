@@ -24,7 +24,16 @@
   "hotspot.plant": "Tưới cho mấy chậu cây ngoài ban công. Lá xanh hẳn lên.",
   "hotspot.shoes": "Đôi giày xếp ngay ngắn cạnh cửa. Hôm nay mang đôi nào cũng được.",
   "hotspot.door": "Hôm nay chưa ra ngoài. Phố xá để dành cho ngày khác.",
-  "activity.quick": "Làm nhanh",
+  "sleep.sit": "Ngồi xuống mép giường. Cả ngày hôm nay đã đủ dài rồi.",
+  "sleep.lie": "Nằm xuống. Trần nhà quen thuộc, tiếng xe máy xa dần.",
+  "sleep.covered": "Chăn ấm lên dần. Đèn ngủ vẫn còn sáng một chút.",
+  "sleep.eyes_closed": "Nhắm mắt lại. Tắt đèn. Ngủ ngon nhé.",
+  "sleep.rest": "Nằm nghỉ một lát cho đỡ mệt. Chăn vẫn thơm mùi nắng.",
+  "tv.sit": "Ngồi xuống sofa, bật tivi lên cho nhà đỡ vắng.",
+  "tv.drama": "Một bữa cơm gia đình trên phim. Xem mà thấy nhớ nhà.",
+  "tv.cooking": "Chương trình nấu ăn hôm nay có món canh nghe dễ làm. Ghi nhớ lại để thử.",
+  "tv.weather": "Bản tin thời tiết: mai trời nắng nhẹ, chiều có thể mưa rào.",
+  "tv.doze": "Ngồi lâu, mắt díu lại lúc nào không hay. Tivi vẫn rì rầm bên tai.",
   "day.new": "Ngày {day}.",
   "tap.hint": "Chạm vào sàn để đi, chạm vào đồ vật để làm một việc nhỏ."
 }

@@ -1,6 +1,8 @@
 """Tách bảng UI gouache (nhiều món trên nền giấy) thành từng ảnh WebP có nền trong suốt.
 
-Dùng: python tools/slice_ui.py <bảng_ui.png> <thư_mục_ra>
+Dùng: python tools/slice_ui.py <bảng.png> <thư_mục_ra> [ui|tv]
+
+Tham số thứ 3 chọn bộ tọa độ: "ui" (bảng UI chung, mặc định) hoặc "tv" (3 tranh màn hình TV).
 
 Tọa độ BOXES theo ảnh gốc 2304x1296 của bảng UI hiện tại. Nếu sinh bảng mới, chỉnh lại BOXES.
 Nền được loại bằng cách tràn từ viền ngoài của mỗi ô; phần bên trong viền kín vẫn giữ nguyên.
@@ -13,7 +15,7 @@ from PIL import Image
 from scipy import ndimage as ndi
 
 # tên: (x0, y0, x1, y1, chiều_rộng_xuất)
-BOXES = {
+UI_BOXES = {
     "dialogue":   (95, 80, 1722, 402, 1280),
     "button":     (1805, 150, 2222, 345, 360),
     "clock-0":    (190, 460, 570, 830, 192),
@@ -25,6 +27,14 @@ BOXES = {
     "menu":       (1305, 895, 1610, 1195, 120),
     "ornament":   (1770, 875, 2170, 1200, 200),
 }
+
+TV_BOXES = {
+    "tv-drama":   (45, 370, 770, 873, 480),
+    "tv-cooking": (800, 367, 1503, 870, 480),
+    "tv-weather": (1538, 367, 2255, 870, 480),
+}
+
+SHEETS = {"ui": UI_BOXES, "tv": TV_BOXES}
 
 
 # Các món có lỗ hở thật (quai bình, cành lá) thì không lấp lỗ.
@@ -61,9 +71,10 @@ def cut(img: np.ndarray, box: tuple[int, int, int, int], fill: bool = True,
 
 def main() -> None:
     src, out_dir = sys.argv[1], sys.argv[2]
+    boxes = SHEETS[sys.argv[3] if len(sys.argv) > 3 else "ui"]
     os.makedirs(out_dir, exist_ok=True)
     img = np.asarray(Image.open(src).convert("RGB")).astype(np.float32)
-    for name, (x0, y0, x1, y1, out_w) in BOXES.items():
+    for name, (x0, y0, x1, y1, out_w) in boxes.items():
         im = cut(img, (x0, y0, x1, y1), fill=name not in NO_FILL, is_bg_everywhere=name in FULL_BG)
         out_h = max(1, round(im.height * out_w / im.width))
         im = im.resize((out_w, out_h), Image.LANCZOS)

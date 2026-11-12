@@ -1,6 +1,9 @@
 """Tách bảng sprite (một hàng nhân vật trên nền giấy) thành spritesheet có nền trong suốt.
 
-Dùng: python tools/slice_sprites.py <ảnh_vào.png> <ảnh_ra.webp> [số_khung=7] [chiều_cao_khung=480]
+Dùng: python tools/slice_sprites.py <ảnh_vào.png> <ảnh_ra.webp> [số_khung=7] [chiều_cao_khung=480] [tỉ_lệ]
+
+[tỉ_lệ]: nếu cho, dùng đúng tỉ lệ thu nhỏ này (in ra ở lần chạy bảng đi bộ) để tư thế khác
+(ngồi, nằm...) cùng cỡ với nhân vật đứng. Bỏ trống thì tự co theo khung cao nhất.
 
 Mỗi khung được căn theo thân trên (ngang) và chân chạm đất (dọc), nên khi phát liên tục
 nhân vật không bị trượt. Kết quả là một hàng ngang các khung bằng nhau.
@@ -16,6 +19,7 @@ def main() -> None:
     src, dst = sys.argv[1], sys.argv[2]
     n_frames = int(sys.argv[3]) if len(sys.argv) > 3 else 7
     frame_h = int(sys.argv[4]) if len(sys.argv) > 4 else 480
+    fixed_scale = float(sys.argv[5]) if len(sys.argv) > 5 else None
 
     img = np.asarray(Image.open(src).convert("RGB")).astype(np.float32)
     h, w, _ = img.shape
@@ -77,7 +81,7 @@ def main() -> None:
 
     # Tỉ lệ chung: theo khung cao nhất để mọi khung cùng kích cỡ.
     max_h = max(f[0].shape[0] for f in frames)
-    scale = (frame_h * 0.94) / max_h
+    scale = fixed_scale if fixed_scale else (frame_h * 0.94) / max_h
     # Độ rộng khung: đủ chứa bước chân dài nhất quanh tâm thân.
     half = max(max(cx, f.shape[1] - cx) for f, cx, _ in frames)
     frame_w = int(np.ceil(half * 2 * scale)) + 8
@@ -91,7 +95,7 @@ def main() -> None:
         sheet.alpha_composite(im, (i * frame_w + max(0, px), py))
 
     sheet.save(dst, "WEBP", quality=88, method=6)
-    print(f"frames={n_frames} frame_size={frame_w}x{frame_h} sheet={sheet.size}")
+    print(f"frames={n_frames} frame_size={frame_w}x{frame_h} sheet={sheet.size} scale={scale:.5f}")
 
 
 if __name__ == "__main__":
