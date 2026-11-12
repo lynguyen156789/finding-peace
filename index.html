@@ -5,30 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <title>Finding Peace</title>
     <style>
+      /* Mọi khung, nút, biểu tượng đều là tranh gouache trong public/assets/ui. CSS chỉ đặt vị trí và chữ. */
       html, body { margin: 0; height: 100%; background: #efe6d4; overflow: hidden; touch-action: none; }
       #stage { position: relative; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; }
-      #game { position: relative; aspect-ratio: 16 / 9; width: min(100vw, 100vh * 16 / 9); }
+      #game { position: relative; aspect-ratio: 16 / 9; width: min(100vw, 100vh * 16 / 9); container-type: inline-size; }
       #game canvas { display: block; }
       #ui { position: absolute; inset: 0; pointer-events: none; font-family: "Lora", "Times New Roman", serif; color: #4a3626; }
+      #ui img { display: block; }
+
       #ui .dialogue {
-        position: absolute; left: 8%; right: 8%; bottom: 4%; padding: 2.2% 3%;
-        background: #f6eedc; border-radius: 14px; box-shadow: 0 0 0 3px #c9b48e inset;
-        font-size: clamp(16px, 2.6vw, 30px); line-height: 1.5; pointer-events: none; cursor: pointer;
-        opacity: 0; transform: translateY(8px); transition: opacity .25s, transform .25s;
+        position: absolute; left: 50%; bottom: 3%; width: 74%; transform: translate(-50%, 8px);
+        aspect-ratio: 1280 / 236; box-sizing: border-box; padding: 0 8%;
+        background: url(assets/ui/dialogue.webp) center / 100% 100% no-repeat;
+        display: flex; align-items: center;
+        font-size: 2.2cqw; line-height: 1.45;
+        pointer-events: none; cursor: pointer; opacity: 0; transition: opacity .25s, transform .25s;
       }
-      #ui .dialogue.show { opacity: 1; transform: none; pointer-events: auto; }
-      #ui .quick {
-        position: absolute; top: 3%; right: 2.5%; padding: .6% 1.8%; border: 0; border-radius: 999px;
-        background: #f6eedc; color: #4a3626; font: inherit; font-size: clamp(14px, 1.8vw, 22px);
-        box-shadow: 0 0 0 3px #c9b48e inset; pointer-events: auto; cursor: pointer;
+      #ui .dialogue.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+
+      #ui .clock { position: absolute; top: 3%; left: 2.5%; width: 7.5%; }
+
+      #ui .quick, #ui .setup-start {
+        border: 0; padding: 0; background: url(assets/ui/button.webp) center / 100% 100% no-repeat;
+        aspect-ratio: 360 / 155; color: #4a3626; font: inherit; cursor: pointer; pointer-events: auto;
       }
-      #ui .clock {
-        position: absolute; top: 3%; left: 2.5%; width: 4.2%; aspect-ratio: 1; border-radius: 50%;
-        background: #e8c46a; box-shadow: 0 0 0 3px #f6eedc; transition: background .6s;
+      #ui .quick { position: absolute; top: 3%; right: 2.5%; width: 15%; font-size: 2cqw; }
+
+      #ui .setup { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2.2cqw; }
+      #ui .setup-title {
+        width: 50%; aspect-ratio: 1280 / 236; box-sizing: border-box; display: flex; align-items: center; justify-content: center;
+        background: url(assets/ui/dialogue.webp) center / 100% 100% no-repeat; font-size: 2.5cqw;
       }
-      #ui .clock[data-slot="1"] { background: #e0a14a; }
-      #ui .clock[data-slot="2"] { background: #c56b4a; }
-      #ui .clock[data-slot="3"] { background: #8a93a8; }
+      #ui .setup-body { display: flex; align-items: center; gap: 5cqw; }
+      #ui .setup-col { display: flex; flex-direction: column; align-items: center; gap: 1.2cqw; }
+      #ui .setup-label { font-size: 2cqw; opacity: .8; }
+      #ui .setup-row { display: flex; gap: 2.4cqw; align-items: flex-end; }
+      #ui .card { position: relative; display: flex; flex-direction: column; align-items: center; gap: .6cqw; cursor: pointer; pointer-events: auto; opacity: .72; transition: opacity .2s, transform .2s; }
+      #ui .card.selected { opacity: 1; transform: translateY(-.6cqw); }
+      #ui .card.selected::after {
+        content: ""; position: absolute; top: -6%; right: -14%; width: 38%; aspect-ratio: 200 / 162;
+        background: url(assets/ui/ornament.webp) center / 100% 100% no-repeat;
+      }
+      #ui .card-char { width: 12cqw; }
+      #ui .char-face { width: 100%; background-repeat: no-repeat; background-position: 0 0; }
+      #ui .card-apt { width: 18cqw; }
+      #ui .card-apt img { width: 100%; }
+      #ui .card-name { font-size: 1.7cqw; text-align: center; }
+      #ui .setup-start { width: 15cqw; font-size: 2.2cqw; }
+
       @media (prefers-reduced-motion: reduce) { #ui * { transition: none !important; } }
     </style>
   </head>

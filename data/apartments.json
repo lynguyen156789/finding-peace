@@ -1,0 +1,60 @@
+{
+  "_note": "Tọa độ rect = [x, y, rộng, cao] theo ảnh gốc 2304x1296. Code tự quy đổi sang khung game 1280x720. 'action' để dành cho bước thiết kế tác vụ chi tiết.",
+  "imageSize": [2304, 1296],
+  "floor": { "minX": 60, "maxX": 1220, "minY": 410, "maxY": 690, "standY": 470 },
+  "apartments": {
+    "1": {
+      "nameKey": "apartment.1.name",
+      "image": "assets/apartments/studio-1.webp",
+      "thumb": "assets/apartments/studio-1-thumb.webp",
+      "start": [640, 520],
+      "hotspots": [
+        { "id": "bed",       "rect": [0, 435, 330, 400],    "action": "sleep",   "textKey": "hotspot.bed.rest",       "moment": "home.bed" },
+        { "id": "sofa",      "rect": [490, 485, 400, 270],  "action": "rest",    "textKey": "hotspot.sofa",           "moment": "home.sofa" },
+        { "id": "window",    "rect": [515, 155, 340, 320],  "action": "look",    "textKey": "hotspot.window",         "moment": "home.window" },
+        { "id": "tv",        "rect": [875, 425, 100, 310],  "action": "watch",   "textKey": "hotspot.tv",             "moment": "home.tv" },
+        { "id": "bookshelf", "rect": [975, 295, 135, 365],  "action": "read",    "textKey": "hotspot.bookshelf",      "moment": "home.bookshelf" },
+        { "id": "kitchen",   "rect": [1150, 365, 590, 310], "action": "cook",    "textKey": "hotspot.kitchen",        "moment": "home.kitchen" },
+        { "id": "dining",    "rect": [1255, 590, 380, 230], "action": "eat",     "textKey": "hotspot.dining",         "moment": "home.dining" },
+        { "id": "balcony",   "rect": [1730, 125, 380, 540], "action": "water",   "textKey": "hotspot.plant",          "moment": "home.balcony", "activity": "water" },
+        { "id": "shoes",     "rect": [2120, 550, 105, 170], "action": "outfit",  "textKey": "hotspot.shoes",          "moment": "home.shoes" },
+        { "id": "door",      "rect": [2230, 120, 74, 640],  "action": "go_out",  "textKey": "hotspot.door",           "advance": false }
+      ]
+    },
+    "2": {
+      "nameKey": "apartment.2.name",
+      "image": "assets/apartments/studio-2.webp",
+      "thumb": "assets/apartments/studio-2-thumb.webp",
+      "start": [640, 520],
+      "hotspots": [
+        { "id": "bed",       "rect": [0, 400, 310, 350],    "action": "sleep",   "textKey": "hotspot.bed.rest",       "moment": "home.bed" },
+        { "id": "bookshelf", "rect": [475, 205, 160, 425],  "action": "read",    "textKey": "hotspot.bookshelf",      "moment": "home.bookshelf" },
+        { "id": "sofa",      "rect": [515, 460, 410, 290],  "action": "rest",    "textKey": "hotspot.sofa",           "moment": "home.sofa" },
+        { "id": "tv",        "rect": [925, 385, 205, 260],  "action": "watch",   "textKey": "hotspot.tv",             "moment": "home.tv" },
+        { "id": "kitchen",   "rect": [1145, 305, 555, 325], "action": "cook",    "textKey": "hotspot.kitchen",        "moment": "home.kitchen" },
+        { "id": "dining",    "rect": [1330, 540, 430, 250], "action": "eat",     "textKey": "hotspot.dining",         "moment": "home.dining" },
+        { "id": "balcony",   "rect": [1710, 100, 330, 540], "action": "water",   "textKey": "hotspot.plant",          "moment": "home.balcony", "activity": "water" },
+        { "id": "shoes",     "rect": [2105, 525, 110, 150], "action": "outfit",  "textKey": "hotspot.shoes",          "moment": "home.shoes" },
+        { "id": "door",      "rect": [2230, 130, 74, 590],  "action": "go_out",  "textKey": "hotspot.door",           "advance": false }
+      ]
+    },
+    "3": {
+      "nameKey": "apartment.3.name",
+      "image": "assets/apartments/studio-3.webp",
+      "thumb": "assets/apartments/studio-3-thumb.webp",
+      "start": [640, 520],
+      "hotspots": [
+        { "id": "bed",       "rect": [0, 430, 330, 380],    "action": "sleep",   "textKey": "hotspot.bed.rest",       "moment": "home.bed" },
+        { "id": "sofa",      "rect": [455, 470, 440, 280],  "action": "rest",    "textKey": "hotspot.sofa",           "moment": "home.sofa" },
+        { "id": "window",    "rect": [605, 150, 205, 300],  "action": "look",    "textKey": "hotspot.window",         "moment": "home.window" },
+        { "id": "tv",        "rect": [895, 385, 200, 275],  "action": "watch",   "textKey": "hotspot.tv",             "moment": "home.tv" },
+        { "id": "bookshelf", "rect": [1085, 280, 115, 380], "action": "read",    "textKey": "hotspot.bookshelf",      "moment": "home.bookshelf" },
+        { "id": "kitchen",   "rect": [1235, 290, 540, 370], "action": "cook",    "textKey": "hotspot.kitchen",        "moment": "home.kitchen" },
+        { "id": "dining",    "rect": [1300, 550, 390, 230], "action": "eat",     "textKey": "hotspot.dining",         "moment": "home.dining" },
+        { "id": "balcony",   "rect": [1780, 120, 350, 530], "action": "water",   "textKey": "hotspot.plant",          "moment": "home.balcony", "activity": "water" },
+        { "id": "shoes",     "rect": [2085, 515, 130, 200], "action": "outfit",  "textKey": "hotspot.shoes",          "moment": "home.shoes" },
+        { "id": "door",      "rect": [2230, 130, 74, 610],  "action": "go_out",  "textKey": "hotspot.door",           "advance": false }
+      ]
+    }
+  }
+}

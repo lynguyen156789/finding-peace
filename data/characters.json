@@ -1,0 +1,8 @@
+{
+  "_note": "Spritesheet đi bộ: khung 0 là đứng yên, khung 1-6 là chu kỳ bước. Tạo bằng tools/slice_sprites.py. Nhân vật nhìn sang phải; game lật ảnh khi đi sang trái.",
+  "walkFps": 7,
+  "characters": {
+    "female": { "sheet": "assets/characters/female-walk.webp", "frameWidth": 237, "frameHeight": 480, "nameKey": "setup.female" },
+    "male":   { "sheet": "assets/characters/male-walk.webp",   "frameWidth": 256, "frameHeight": 480, "nameKey": "setup.male" }
+  }
+}

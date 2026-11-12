@@ -1,49 +1,33 @@
 import Phaser from "phaser";
 import { t } from "../core/i18n";
 
-const CAN_TEX = "watering-can";
-const DROP_TEX = "water-drop";
-
-function makeTextures(scene: Phaser.Scene): void {
-  if (scene.textures.exists(CAN_TEX)) return;
-  const g = scene.add.graphics();
-  g.fillStyle(0x7d8f6a, 1).fillRoundedRect(8, 14, 54, 38, 8); // thân bình
-  g.fillStyle(0x6b7a58, 1).fillRect(56, 18, 28, 7).fillRect(78, 12, 8, 20); // vòi
-  g.lineStyle(6, 0x6b7a58, 1).strokeCircle(18, 22, 12); // quai
-  g.generateTexture(CAN_TEX, 92, 56);
-  g.clear();
-  g.fillStyle(0x8fb4c9, 1).fillCircle(5, 5, 5);
-  g.generateTexture(DROP_TEX, 10, 10);
-  g.destroy();
-}
-
-/** Tưới cây: kéo bình nước tới chậu và giữ một chút. Luôn hoàn thành, có nút "làm nhanh". */
+/** Tưới cây: kéo bình nước tới chỗ cây và giữ một chút. Luôn hoàn thành, có nút "làm nhanh". */
 export function runWatering(
   scene: Phaser.Scene,
   target: { x: number; y: number; w: number; h: number },
   ui: HTMLElement,
 ): Promise<void> {
-  makeTextures(scene);
-
   return new Promise((resolve) => {
-    const startX = target.x - 120;
-    const startY = target.y + target.h + 60;
-    const can = scene.add.image(startX, startY, CAN_TEX).setDepth(9000).setInteractive({ draggable: true });
+    const startX = Phaser.Math.Clamp(target.x - 220, 120, 1160);
+    const startY = 560;
+    const can = scene.add.image(startX, startY, "ui-watering-can").setScale(0.5).setDepth(9000);
+    can.setInteractive({ draggable: true });
     scene.input.setDraggable(can);
 
-    const flash = scene.add
+    // Một vệt xanh nhạt phủ lên chỗ cây khi đang tưới.
+    const wet = scene.add
       .rectangle(target.x + target.w / 2, target.y + target.h / 2, target.w, target.h, 0x8fb4c9, 0)
       .setDepth(8999);
 
-    let progress = 0; // ms đã giữ trên chậu
+    let progress = 0; // ms đã giữ bình trên vùng cây
     let done = false;
     const NEED_MS = 1100;
-
-    const inside = () => Phaser.Geom.Rectangle.Contains(new Phaser.Geom.Rectangle(target.x - 40, target.y - 40, target.w + 80, target.h + 80), can.x, can.y);
+    const zone = new Phaser.Geom.Rectangle(target.x - 40, target.y - 40, target.w + 80, target.h + 80);
+    const inside = () => Phaser.Geom.Rectangle.Contains(zone, can.x, can.y);
 
     can.on("drag", (_p: Phaser.Input.Pointer, x: number, y: number) => {
       can.setPosition(x, y);
-      can.setAngle(inside() ? -25 : 0); // nghiêng bình khi tới chậu
+      can.setAngle(inside() ? -22 : 0); // nghiêng bình khi tới cây
     });
 
     const drops = scene.time.addEvent({
@@ -51,14 +35,8 @@ export function runWatering(
       loop: true,
       callback: () => {
         if (done || !inside()) return;
-        const d = scene.add.image(can.x + 34, can.y + 14, DROP_TEX).setDepth(9000);
-        scene.tweens.add({
-          targets: d,
-          y: d.y + 70,
-          alpha: 0,
-          duration: 420,
-          onComplete: () => d.destroy(),
-        });
+        const d = scene.add.image(can.x + 78, can.y - 6, "ui-drop").setScale(0.6).setDepth(9000);
+        scene.tweens.add({ targets: d, y: d.y + 80, alpha: 0, duration: 450, onComplete: () => d.destroy() });
       },
     });
 
@@ -68,7 +46,7 @@ export function runWatering(
       callback: () => {
         if (done || !inside()) return;
         progress += 50;
-        flash.setFillStyle(0x8fb4c9, 0.25 * (progress / NEED_MS));
+        wet.setFillStyle(0x8fb4c9, 0.22 * (progress / NEED_MS));
         if (progress >= NEED_MS) finish();
       },
     });
@@ -89,12 +67,12 @@ export function runWatering(
       tick.remove();
       btn.remove();
       scene.tweens.add({
-        targets: [can, flash],
+        targets: [can, wet],
         alpha: 0,
         duration: 350,
         onComplete: () => {
           can.destroy();
-          flash.destroy();
+          wet.destroy();
           resolve();
         },
       });

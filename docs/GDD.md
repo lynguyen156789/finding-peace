@@ -3,6 +3,14 @@
 Bản gốc (nguồn chính, có thể đã sửa sau khi đóng gói): https://claude.ai/artifact/BHDuYcK5GqKNipG9oLvbLp
 Ngày đóng gói: 2026-11-11. Mục có "(đề xuất)" là chưa chốt.
 
+## Cập nhật quyết định (2026-11-12) — ưu tiên hơn nội dung bên dưới
+
+- Cuộc đời nhân vật chia **2 phần**: **Phần 1 độc thân**, **Phần 2 kết hôn**. Làm Phần 1 trước. Phần 2 chưa quyết (kể cả em bé nằm ở đâu); khi tới đó sẽ thiết kế lại cấu trúc căn nhà.
+- Phần 1: nhân vật sống **một mình trong căn hộ studio nhỏ** (giường, phòng khách, bếp, bàn ăn, ban công, cửa ra vào), không còn "sống cùng bố mẹ". Bố mẹ chỉ có mặt ở căn hộ vào **Tết và các dịp lễ**.
+- Có **3 phương án căn hộ studio**; người chơi **tự chọn** một căn khi bắt đầu (cùng bộ tác vụ, khác bố cục).
+- Nhân vật nam và nữ trong `assets/` (bảng nhân vật) chính là nhân vật đi lại và làm việc trong game.
+- Các chỗ bên dưới ghi "sống cùng bố mẹ", "nhà bố mẹ", "giai đoạn 1/2/3", "căn phòng cũ" cần đọc theo cập nhật này.
+
 ## 1. Tổng quan
 
 Finding Peace là game mô phỏng đời thường kể như một câu chuyện có mở đầu và kết thúc. Người chơi tìm lại sự bình yên qua những việc nhỏ hằng ngày của một người trẻ sống ở Việt Nam. Không chơi "để thắng": sống cùng nhân vật (về nhà, dọn dẹp, nấu cơm, tưới cây, dắt thú cưng đi dạo, ra phố, ăn với bạn, đi ngủ). Chơi xong có cảm giác vừa đọc xong một cuốn truyện hiền.

@@ -3,7 +3,8 @@ import "@fontsource/lora/latin-ext-400.css";
 import "@fontsource/lora/vietnamese-400.css";
 import Phaser from "phaser";
 import { BootScene } from "./scenes/BootScene";
-import { RoomScene } from "./scenes/RoomScene";
+import { SetupScene } from "./scenes/SetupScene";
+import { HomeScene } from "./scenes/HomeScene";
 
 new Phaser.Game({
   type: Phaser.AUTO,
@@ -13,5 +14,5 @@ new Phaser.Game({
   backgroundColor: "#efe6d4",
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   input: { activePointers: 1 },
-  scene: [BootScene, RoomScene],
+  scene: [BootScene, SetupScene, HomeScene],
 });

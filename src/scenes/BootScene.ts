@@ -1,5 +1,9 @@
 import Phaser from "phaser";
-import { makeCharacterTextures } from "../entities/Character";
+import aptData from "../../data/apartments.json";
+import { createCharacterAnims, loadCharacterSheets } from "../entities/Character";
+import { loadGame } from "../core/Save";
+
+export const UI_IMAGES = ["watering-can", "drop"] as const;
 
 export class BootScene extends Phaser.Scene {
   constructor() {
@@ -7,11 +11,15 @@ export class BootScene extends Phaser.Scene {
   }
 
   preload(): void {
-    this.load.image("room", "assets/room.webp");
+    for (const [id, apt] of Object.entries(aptData.apartments)) this.load.image(`apt-${id}`, apt.image);
+    loadCharacterSheets(this);
+    for (const name of UI_IMAGES) this.load.image(`ui-${name}`, `assets/ui/${name}.webp`);
   }
 
   create(): void {
-    makeCharacterTextures(this);
-    this.scene.start("Room");
+    createCharacterAnims(this);
+    const state = loadGame();
+    const forceSetup = new URLSearchParams(window.location.search).has("setup");
+    this.scene.start(state.gender && state.apartment && !forceSetup ? "Home" : "Setup");
   }
 }

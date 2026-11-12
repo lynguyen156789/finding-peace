@@ -10,6 +10,15 @@ Dev: Duc (làm một mình, indie, Hà Nội), trao đổi bằng tiếng Việt
 - `docs/MVP_PLAN.md`: phạm vi MVP, gợi ý kỹ thuật, cửa kiểm tra.
 - `assets/`: ảnh mẫu (xem assets/README.md để tải).
 
+## Cập nhật 2026-11-12 (ưu tiên hơn mô tả cũ bên dưới)
+- Cuộc đời chia 2 phần: Phần 1 độc thân, Phần 2 kết hôn. Làm Phần 1 trước; Phần 2 chưa quyết (kể cả em bé).
+- Phần 1: sống một mình trong căn hộ studio nhỏ; bố mẹ chỉ có mặt ở căn hộ vào Tết, lễ.
+- 3 phương án căn hộ studio, người chơi tự chọn (cùng tác vụ, khác bố cục).
+- Nhân vật nam/nữ trong bảng nhân vật là nhân vật thật đi lại và làm việc trong game.
+- Tác vụ chi tiết thiết kế sau, khi nhân vật và căn hộ đã vào game.
+
+- **Mọi hình trong game phải là tranh gouache của game**: đồ vật, dụng cụ, pop-up, khung, nút, biểu tượng. Không vẽ hình bằng code/CSS (không hình chữ nhật, hình tròn, màu phẳng). Cần món mới thì sinh ảnh theo ART_STYLE.md rồi tách nền bằng `tools/slice_ui.py` (UI) hoặc `tools/slice_sprites.py` (nhân vật). CSS chỉ đặt vị trí và chữ.
+
 ## Quyết định đã chốt
 - Web 2D, màn ngang 16:9, cảm ứng là chính; phát hành miễn phí trước, mở rộng sau.
 - Nhân vật chính nam hoặc nữ (cùng cốt truyện); bạn đời do người chơi chọn hình ảnh; một con.
