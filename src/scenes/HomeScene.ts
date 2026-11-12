@@ -5,7 +5,7 @@ import { SLOT_TINT, advanceSlot } from "../core/Clock";
 import { GameState } from "../core/GameState";
 import { loadGame, saveGame } from "../core/Save";
 import { t } from "../core/i18n";
-import { runWatering } from "../activities/Watering";
+import { prepareWateringClip, runWatering } from "../activities/Watering";
 import { prepareSleepClips, runSleep } from "../activities/Sleep";
 import { runWatchTv } from "../activities/WatchTv";
 import { Dialogue } from "../ui/Dialogue";
@@ -32,7 +32,10 @@ export class HomeScene extends Phaser.Scene {
 
   create(): void {
     this.state = loadGame();
-    if (this.state.gender) prepareSleepClips(this.state.gender); // tải trước video cảnh ngủ
+    if (this.state.gender) {
+      prepareSleepClips(this.state.gender); // tải trước video các cảnh riêng
+      prepareWateringClip(this.state.gender);
+    }
     this.apt = aptData.apartments[String(this.state.apartment) as keyof typeof aptData.apartments];
 
     this.add.image(640, 360, `apt-${this.state.apartment}`).setDisplaySize(1280, 720).setDepth(-1000);
@@ -99,7 +102,8 @@ export class HomeScene extends Phaser.Scene {
     }
 
     if (h.activity === "water") {
-      await runWatering(this, r);
+      await this.doCutscene(h, () => runWatering(this.state.gender!, this.dialogue));
+      return;
     }
 
     await this.dialogue.show(t(h.textKey));
@@ -112,11 +116,19 @@ export class HomeScene extends Phaser.Scene {
     this.busy = false;
   }
 
-  /** Giường: ban đêm là đi ngủ (đủ 4 khung), ban ngày là nghỉ một lát (dừng sau khi đắp chăn). */
+  /** Giường: ban đêm là đi ngủ (đủ khung), ban ngày là nghỉ một lát (dừng sau khi đắp chăn). */
   private async doSleep(h: Hotspot): Promise<void> {
     const full = this.state.slot === 3;
-    const reveal = await runSleep(this.state.gender!, full, this.dialogue);
-    const newDay = await this.finishSlot(h, false); // màn đang đen, đổi giờ/ngày ở đây rồi mới mờ về
+    await this.doCutscene(h, () => runSleep(this.state.gender!, full, this.dialogue));
+  }
+
+  /**
+   * Cảnh riêng (video): chạy clip tới lúc màn đen, đổi giờ/ngày lúc đó, rồi mờ về căn hộ.
+   * Mỗi clip trả về hàm reveal() để mờ màn đen đi.
+   */
+  private async doCutscene(h: Hotspot, run: () => Promise<() => Promise<void>>): Promise<void> {
+    const reveal = await run();
+    const newDay = await this.finishSlot(h, false);
     await reveal();
     if (newDay) await this.dialogue.show(t("day.new", { day: this.state.day }));
     this.busy = false;

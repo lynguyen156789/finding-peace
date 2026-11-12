@@ -3,7 +3,7 @@ import aptData from "../../data/apartments.json";
 import { createCharacterAnims, loadCharacterSheets } from "../entities/Character";
 import { loadGame } from "../core/Save";
 
-export const UI_IMAGES = ["watering-can", "drop", "tv-drama", "tv-cooking", "tv-weather"] as const;
+export const UI_IMAGES = ["tv-drama", "tv-cooking", "tv-weather"] as const;
 
 export class BootScene extends Phaser.Scene {
   constructor() {

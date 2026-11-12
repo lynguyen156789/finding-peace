@@ -6,9 +6,9 @@ Bản nháp để Duc duyệt, chưa đưa vào game. Theo GDD mục 3, 4: khôn
 
 | Hành động | Tranh | Code | Ghi chú |
 | --- | --- | --- | --- |
-| Ngủ, nghỉ một lát | xong (8 ảnh) | xong, chưa chạy thử | `src/activities/Sleep.ts` |
+| Ngủ, nghỉ một lát | xong: 4 clip video (A ngồi → nằm, B kéo chăn) + 2 ảnh nhắm mắt | xong, chưa xem chạy trên máy thật | `src/activities/Sleep.ts`; video Wan 2.7 nội suy giữa 2 ảnh |
 | Xem TV | xong (ngồi khoanh chân trên sofa, 3 tranh TV) | xong, chưa chạy thử | `src/activities/WatchTv.ts`; ngồi khoanh chân để không chèn lên bàn trà; căn 1 dùng tranh nhỏ phía trên TV vì TV bị nghiêng |
-| Tưới cây cầm bình | chưa | bản cũ (bình kéo thả) | làm kế tiếp |
+| Tưới cây cầm bình | xong: cảnh ban công riêng, 2 clip video 6 giây (nam, nữ) | xong, chưa xem chạy trên máy thật | `src/activities/Watering.ts`; là cảnh riêng nên không phụ thuộc căn hộ |
 | Nấu ăn, ăn, rửa bát | chưa | chưa | cuối cùng |
 
 ## Tiêu chí chung: mỗi hành động là một clip ngắn tự chạy
