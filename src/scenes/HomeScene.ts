@@ -130,8 +130,8 @@ export class HomeScene extends Phaser.Scene {
   }
 
   /**
-   * Cảnh riêng (video): chạy clip tới lúc màn đen, đổi giờ/ngày lúc đó, rồi mờ về căn hộ.
-   * Mỗi clip trả về hàm reveal() để mờ màn đen đi.
+   * Cảnh riêng (chuỗi tranh): chạy tới lúc màn đen, đổi giờ/ngày lúc đó, rồi mờ về căn hộ.
+   * Mỗi cảnh trả về hàm reveal() để mờ màn đen đi.
    */
   private async doCutscene(h: Hotspot, run: () => Promise<() => Promise<void>>): Promise<void> {
     const reveal = await run();
