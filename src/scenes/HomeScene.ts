@@ -8,6 +8,7 @@ import { t } from "../core/i18n";
 import { prepareWateringClip, runWatering } from "../activities/Watering";
 import { prepareSleepClips, runSleep } from "../activities/Sleep";
 import { runWatchTv } from "../activities/WatchTv";
+import { prepareCooking, runCooking } from "../activities/Cook";
 import { Dialogue } from "../ui/Dialogue";
 import { ClockIcon } from "../ui/ClockIcon";
 
@@ -35,6 +36,7 @@ export class HomeScene extends Phaser.Scene {
     if (this.state.gender) {
       prepareSleepClips(this.state.gender); // tải trước video các cảnh riêng
       prepareWateringClip(this.state.gender);
+      prepareCooking(this.state.gender);
     }
     this.apt = aptData.apartments[String(this.state.apartment) as keyof typeof aptData.apartments];
 
@@ -98,6 +100,11 @@ export class HomeScene extends Phaser.Scene {
       });
       await this.finishSlot(h, true);
       this.busy = false;
+      return;
+    }
+
+    if (h.action === "cook") {
+      await this.doCutscene(h, () => runCooking(this.state.gender!, this.dialogue));
       return;
     }
 
