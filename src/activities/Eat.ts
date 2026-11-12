@@ -17,14 +17,16 @@ export function prepareEating(gender: Gender): void {
   preloadImages([eatFile(gender), ...[1, 2, 3].map((n) => washFile(gender, n))]);
 }
 
-export async function runEating(gender: Gender, dish: Dish, dialogue: Dialogue): Promise<() => Promise<void>> {
+export async function runEating(gender: Gender, dish: Dish, dialogue: Dialogue, showTray = true): Promise<() => Promise<void>> {
   prepareEating(gender);
   preloadImages([trayFile(dish)]);
   const { wrap, black, show } = openCutscene();
 
-  await show(trayFile(dish), 800);
-  await wait(900);
-  await show(eatFile(gender), 1400);
+  if (showTray) {
+    await show(trayFile(dish), 800);
+    await wait(900);
+  }
+  await show(eatFile(gender), showTray ? 1400 : 800);
   await dialogue.show(t(`dish.${dish.id}.eat`));
   await wait(1500);
   await show(washFile(gender, 1), 1400); // ra bồn, rửa bát

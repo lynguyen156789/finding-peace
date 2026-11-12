@@ -115,8 +115,9 @@ export class HomeScene extends Phaser.Scene {
     }
 
     if (h.action === "eat") {
+      const justCooked = this.lastDish !== null;
       const dish = this.lastDish ?? dishById(randomDish().id);
-      await this.doCutscene(h, () => runEating(this.state.gender!, dish, this.dialogue));
+      await this.doCutscene(h, () => runEating(this.state.gender!, dish, this.dialogue, !justCooked));
       this.lastDish = null;
       return;
     }

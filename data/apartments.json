@@ -87,7 +87,7 @@
             1150,
             365,
             590,
-            310
+            225
           ],
           "action": "cook",
           "textKey": "hotspot.kitchen",
@@ -223,7 +223,7 @@
             1145,
             305,
             555,
-            325
+            235
           ],
           "action": "cook",
           "textKey": "hotspot.kitchen",
@@ -371,7 +371,7 @@
             1235,
             290,
             540,
-            370
+            260
           ],
           "action": "cook",
           "textKey": "hotspot.kitchen",

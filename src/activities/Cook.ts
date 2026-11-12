@@ -36,7 +36,7 @@ export const trayFile = (d: Dish) => (d.id === "egg-canh" ? "cook-tray.webp" : `
 const stepFile = (g: Gender, n: number) => `cook-${g}-${n}.webp`;
 
 /** Món đã có tranh nấu riêng (cook-{gender}-{id}.webp); món khác dùng tranh chiên/nấu chung. */
-const OWN_FRAME = ["tofu", "egg-meat", "boiled-pork", "porridge", "sour-fish", "glass-noodle"];
+const OWN_FRAME = ["tofu", "pork", "fish", "noodle", "egg-meat", "boiled-pork", "porridge", "sour-fish", "glass-noodle"];
 const cookFrame = (g: Gender, d: Dish) =>
   OWN_FRAME.includes(d.id) ? `cook-${g}-${d.id}.webp` : stepFile(g, d.kind === "fry" ? 2 : 3);
 
