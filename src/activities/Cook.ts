@@ -1,12 +1,11 @@
 import { Gender } from "../core/GameState";
 import { t } from "../core/i18n";
 import { Dialogue } from "../ui/Dialogue";
-import { BASE, fadeTo, layer, openCutscene, wait } from "./Cutscene";
+import { fadeTo, openCutscene, preloadImages, wait } from "./Cutscene";
 
 /**
  * Clip nấu ăn (cảnh bếp riêng), tự chạy từ đầu đến cuối, không có nút bỏ qua.
- * Bữa tối cho một người: cơm + trứng chiên + canh cải. Là chuỗi tranh chuyển mờ chậm
- * (không dùng video để tiết kiệm credit):
+ * Bữa tối cho một người: cơm + trứng chiên + canh cải. Chuỗi tranh chuyển mờ chậm:
  *   1 chuẩn bị rau, trứng → 2 chiên trứng → 3 nấu canh → 4 khay cơm thành phẩm.
  * Lời thoại là độc thoại, chữ trắng ở dưới màn hình.
  */
@@ -18,25 +17,19 @@ const STEPS = [
   { img: () => "cook-tray.webp", say: "cook.done", fade: 1600, hold: 1200 },
 ];
 
-/** Tải trước tranh vào bộ nhớ đệm của trình duyệt. */
 export function prepareCooking(gender: Gender): void {
-  for (const s of STEPS) new Image().src = `${BASE}/${s.img(gender)}`;
+  preloadImages(STEPS.map((s) => s.img(gender)));
 }
 
 export async function runCooking(gender: Gender, dialogue: Dialogue): Promise<() => Promise<void>> {
   prepareCooking(gender);
-  const { wrap, black } = openCutscene();
+  const { wrap, black, show } = openCutscene();
 
   for (const s of STEPS) {
-    const img = layer("img") as HTMLImageElement;
-    img.src = `${BASE}/${s.img(gender)}`;
-    img.style.opacity = "0";
-    wrap.insertBefore(img, black);
-    await fadeTo(img, 1, s.fade);
-    void dialogue.show(t(s.say));
-    await wait(3000 + s.hold);
+    await show(s.img(gender), s.fade);
+    await dialogue.show(t(s.say));
+    if (s.hold) await wait(s.hold);
   }
-
   await fadeTo(black, 1, 800);
 
   // Màn đang đen hoàn toàn: bên gọi cập nhật ngày/giờ rồi gọi reveal() để mờ về căn hộ.

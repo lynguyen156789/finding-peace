@@ -5,8 +5,8 @@ import { SLOT_TINT, advanceSlot } from "../core/Clock";
 import { GameState } from "../core/GameState";
 import { loadGame, saveGame } from "../core/Save";
 import { t } from "../core/i18n";
-import { prepareWateringClip, runWatering } from "../activities/Watering";
-import { prepareSleepClips, runSleep } from "../activities/Sleep";
+import { prepareWatering, runWatering } from "../activities/Watering";
+import { prepareSleep, runSleep } from "../activities/Sleep";
 import { runWatchTv } from "../activities/WatchTv";
 import { prepareCooking, runCooking } from "../activities/Cook";
 import { Dialogue } from "../ui/Dialogue";
@@ -34,8 +34,8 @@ export class HomeScene extends Phaser.Scene {
   create(): void {
     this.state = loadGame();
     if (this.state.gender) {
-      prepareSleepClips(this.state.gender); // tải trước video các cảnh riêng
-      prepareWateringClip(this.state.gender);
+      prepareSleep(this.state.gender); // tải trước tranh các cảnh riêng
+      prepareWatering(this.state.gender);
       prepareCooking(this.state.gender);
     }
     this.apt = aptData.apartments[String(this.state.apartment) as keyof typeof aptData.apartments];

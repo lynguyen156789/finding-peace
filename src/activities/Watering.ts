@@ -1,60 +1,35 @@
 import { Gender } from "../core/GameState";
 import { t } from "../core/i18n";
 import { Dialogue } from "../ui/Dialogue";
-import { BASE, fadeTo, layer, makeVideo, openCutscene, playClip, wait } from "./Cutscene";
+import { fadeTo, openCutscene, preloadImages, wait } from "./Cutscene";
 
 /**
- * Clip tưới cây, tự chạy, không có nút bỏ qua, người chơi không phải làm gì. Là một VIDEO:
- * nhân vật bỏ tay khỏi túi, ra lấy bình nước, tưới lần lượt ba chậu cây trên ban công, cây tươi lên.
- * Lời thoại là độc thoại, chữ trắng ở dưới màn hình.
+ * Clip tưới cây (cảnh ban công riêng), tự chạy, không có nút bỏ qua, người chơi không phải làm gì.
+ * Hai tranh chuyển mờ chậm (không dùng video): cây còn héo, nhân vật tay trong túi →
+ * nhân vật cầm bình nước, cây tươi lên, hoa nở. Lời thoại là độc thoại, chữ trắng ở dưới màn hình.
  */
 
-const clipCache = new Map<string, HTMLVideoElement>();
+const file = (g: Gender, part: "start" | "end") => `water-${g}-${part}.webp`;
 
-/** Gọi sớm để video kịp tải trước khi người chơi bấm vào ban công. */
-export function prepareWateringClip(gender: Gender): void {
-  if (!clipCache.has(gender)) clipCache.set(gender, makeVideo(`${BASE}/water-${gender}.mp4`));
+/** Gọi sớm để tranh kịp tải trước khi người chơi bấm vào ban công. */
+export function prepareWatering(gender: Gender): void {
+  preloadImages([file(gender, "start"), file(gender, "end")]);
 }
 
 export async function runWatering(gender: Gender, dialogue: Dialogue): Promise<() => Promise<void>> {
-  prepareWateringClip(gender);
-  const clip = clipCache.get(gender)!;
-  const { wrap, black } = openCutscene();
-  const say = (key: string) => void dialogue.show(t(key));
+  prepareWatering(gender);
+  const { wrap, black, show } = openCutscene();
 
-  clip.style.opacity = "0";
-  wrap.insertBefore(clip, black);
-  let said = 0;
-  const p = playClip(clip, (ms) => {
-    if (said === 0) {
-      said = 1;
-      say("water.start");
-    } else if (said === 1 && ms > 3400) {
-      said = 2;
-      say("water.pour");
-    }
-  });
-  void fadeTo(clip, 1, 400);
-  if (!(await p)) {
-    // Dự phòng: ảnh tĩnh sau khi tưới xong
-    const img = layer("img") as HTMLImageElement;
-    img.src = `${BASE}/water-${gender}-end.webp`;
-    img.style.opacity = "0";
-    wrap.insertBefore(img, black);
-    say("water.start");
-    await fadeTo(img, 1, 1200);
-    say("water.pour");
-    await wait(2500);
-  }
-
-  await wait(900);
-  await fadeTo(black, 1, 600);
+  await show(file(gender, "start"), 800);
+  await dialogue.show(t("water.start"));
+  await show(file(gender, "end"), 2000); // tưới xong: cây tươi, hoa nở, nhân vật cầm bình
+  await dialogue.show(t("water.pour"));
+  await wait(400);
+  await fadeTo(black, 1, 700);
 
   // Màn đang đen hoàn toàn: bên gọi cập nhật ngày/giờ rồi gọi reveal() để mờ về căn hộ.
   return async () => {
     await fadeTo(black, 0, 700);
     wrap.remove();
-    clipCache.delete(gender);
-    prepareWateringClip(gender);
   };
 }
