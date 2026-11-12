@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Finding Peace</title>
+    <style>
+      html, body { margin: 0; height: 100%; background: #efe6d4; overflow: hidden; touch-action: none; }
+      #stage { position: relative; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; }
+      #game { position: relative; aspect-ratio: 16 / 9; width: min(100vw, 100vh * 16 / 9); }
+      #game canvas { display: block; }
+      #ui { position: absolute; inset: 0; pointer-events: none; font-family: "Lora", "Times New Roman", serif; color: #4a3626; }
+      #ui .dialogue {
+        position: absolute; left: 8%; right: 8%; bottom: 4%; padding: 2.2% 3%;
+        background: #f6eedc; border-radius: 14px; box-shadow: 0 0 0 3px #c9b48e inset;
+        font-size: clamp(16px, 2.6vw, 30px); line-height: 1.5; pointer-events: none; cursor: pointer;
+        opacity: 0; transform: translateY(8px); transition: opacity .25s, transform .25s;
+      }
+      #ui .dialogue.show { opacity: 1; transform: none; pointer-events: auto; }
+      #ui .clock {
+        position: absolute; top: 3%; left: 2.5%; width: 4.2%; aspect-ratio: 1; border-radius: 50%;
+        background: #e8c46a; box-shadow: 0 0 0 3px #f6eedc; transition: background .6s;
+      }
+      #ui .clock[data-slot="1"] { background: #e0a14a; }
+      #ui .clock[data-slot="2"] { background: #c56b4a; }
+      #ui .clock[data-slot="3"] { background: #8a93a8; }
+      @media (prefers-reduced-motion: reduce) { #ui * { transition: none !important; } }
+    </style>
+  </head>
+  <body>
+    <div id="stage">
+      <div id="game"><div id="ui"></div></div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

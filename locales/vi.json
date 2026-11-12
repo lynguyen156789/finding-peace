@@ -1,0 +1,15 @@
+{
+  "intro.wake": "Một buổi sáng nữa trong căn phòng cũ. Nắng len qua song cửa sổ.",
+  "slot.0": "Buổi sáng",
+  "slot.1": "Buổi chiều",
+  "slot.2": "Buổi tối",
+  "slot.3": "Đêm",
+  "hotspot.bed.rest": "Nằm xuống một lát. Chăn vẫn còn thơm mùi nắng.",
+  "hotspot.bed.sleep": "Đi ngủ thôi. Ngày mai lại là một ngày mới.",
+  "hotspot.desk": "Cuốn sổ vẽ vẫn nằm đó, mở dở một trang.",
+  "hotspot.plant": "Tưới cho chậu cây một ít nước. Lá xanh hẳn lên.",
+  "hotspot.window": "Ngoài kia tiếng xe máy xa xa, mái ngói đỏ sau tán cây.",
+  "hotspot.rack": "Áo vẫn treo gọn trên giá. Hôm nay mặc gì cũng được.",
+  "day.new": "Ngày {day}.",
+  "tap.hint": "Chạm vào sàn để đi, chạm vào đồ vật để làm một việc nhỏ."
+}
