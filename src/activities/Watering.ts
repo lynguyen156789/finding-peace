@@ -1,7 +1,7 @@
 import { Gender } from "../core/GameState";
 import { t } from "../core/i18n";
 import { Dialogue } from "../ui/Dialogue";
-import { fadeTo, openCutscene, preloadImages, wait } from "./Cutscene";
+import { fadeTo, openCutscene, preloadImages, wait, revealHome } from "./Cutscene";
 
 /**
  * Clip tưới cây (cảnh ban công riêng), tự chạy, không có nút bỏ qua, người chơi không phải làm gì.
@@ -29,7 +29,6 @@ export async function runWatering(gender: Gender, dialogue: Dialogue): Promise<(
 
   // Màn đang đen hoàn toàn: bên gọi cập nhật ngày/giờ rồi gọi reveal() để mờ về căn hộ.
   return async () => {
-    await fadeTo(black, 0, 700);
-    wrap.remove();
+    await revealHome(wrap, black, 700);
   };
 }

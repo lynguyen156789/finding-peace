@@ -1,7 +1,7 @@
 import { Gender } from "../core/GameState";
 import { t } from "../core/i18n";
 import { Dialogue } from "../ui/Dialogue";
-import { fadeTo, openCutscene, preloadImages, wait } from "./Cutscene";
+import { fadeTo, openCutscene, preloadImages, wait, revealHome } from "./Cutscene";
 
 /**
  * Clip nấu ăn (cảnh bếp riêng), tự chạy từ đầu đến cuối, không có nút bỏ qua.
@@ -60,7 +60,6 @@ export async function runCooking(gender: Gender, dish: Dish, dialogue: Dialogue)
 
   // Màn đang đen hoàn toàn: bên gọi cập nhật ngày/giờ rồi gọi reveal() để mờ về căn hộ.
   return async () => {
-    await fadeTo(black, 0, 700);
-    wrap.remove();
+    await revealHome(wrap, black, 700);
   };
 }

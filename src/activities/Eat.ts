@@ -2,7 +2,7 @@ import { Gender } from "../core/GameState";
 import { t } from "../core/i18n";
 import { Dialogue } from "../ui/Dialogue";
 import { Dish, trayFile } from "./Cook";
-import { fadeTo, openCutscene, preloadImages, wait } from "./Cutscene";
+import { fadeTo, openCutscene, preloadImages, wait, revealHome } from "./Cutscene";
 
 /**
  * Clip ăn cơm rồi rửa bát (cảnh bếp riêng), tự chạy, không có nút bỏ qua.
@@ -38,7 +38,6 @@ export async function runEating(gender: Gender, dish: Dish, dialogue: Dialogue, 
   await fadeTo(black, 1, 800);
 
   return async () => {
-    await fadeTo(black, 0, 700);
-    wrap.remove();
+    await revealHome(wrap, black, 700);
   };
 }

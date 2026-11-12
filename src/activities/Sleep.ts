@@ -1,7 +1,7 @@
 import { Gender } from "../core/GameState";
 import { t } from "../core/i18n";
 import { Dialogue } from "../ui/Dialogue";
-import { fadeTo, openCutscene, preloadImages, wait } from "./Cutscene";
+import { fadeTo, openCutscene, preloadImages, wait, revealHome } from "./Cutscene";
 
 /**
  * Clip ngủ, tự chạy từ đầu đến cuối, không có nút bỏ qua, người chơi không phải làm gì.
@@ -41,7 +41,6 @@ export async function runSleep(gender: Gender, full: boolean, dialogue: Dialogue
 
   // Màn đang đen hoàn toàn: bên gọi cập nhật ngày/giờ rồi gọi reveal() để mờ về căn hộ.
   return async () => {
-    await fadeTo(black, 0, 800);
-    wrap.remove();
+    await revealHome(wrap, black, 800);
   };
 }

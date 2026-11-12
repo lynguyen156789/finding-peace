@@ -20,6 +20,13 @@ export async function fadeTo(el: HTMLElement, opacity: number, ms: number): Prom
   await wait(ms);
 }
 
+/** Màn đang đen hoàn toàn: bỏ hết tranh rồi mờ màn đen đi để lộ căn hộ (không lộ lại tranh cuối). */
+export async function revealHome(wrap: HTMLElement, black: HTMLElement, ms: number): Promise<void> {
+  wrap.querySelectorAll("img").forEach((i) => i.remove());
+  await fadeTo(black, 0, ms);
+  wrap.remove();
+}
+
 /** Tải trước các tranh vào bộ nhớ đệm của trình duyệt. */
 export function preloadImages(files: string[]): void {
   for (const f of files) new Image().src = `${BASE}/${f}`;
