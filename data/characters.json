@@ -16,7 +16,7 @@
       },
       "sit": {
         "sheet": "assets/characters/female-sit.webp",
-        "frameWidth": 267,
+        "frameWidth": 357,
         "frameHeight": 480
       }
     },
@@ -34,7 +34,7 @@
       },
       "sit": {
         "sheet": "assets/characters/male-sit.webp",
-        "frameWidth": 248,
+        "frameWidth": 305,
         "frameHeight": 480
       }
     }
