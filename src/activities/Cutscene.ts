@@ -32,8 +32,14 @@ export function preloadImages(files: string[]): void {
   for (const f of files) new Image().src = `${BASE}/${f}`;
 }
 
+export interface Cutscene {
+  wrap: HTMLElement;
+  black: HTMLElement;
+  show: (file: string, fadeMs: number) => Promise<void>;
+}
+
 /** Tạo lớp phủ cảnh riêng kèm màn đen (dùng để làm mờ vào và ra). */
-export function openCutscene(): { wrap: HTMLElement; black: HTMLElement; show: (file: string, fadeMs: number) => Promise<void> } {
+export function openCutscene(): Cutscene {
   const ui = document.getElementById("ui")!;
   const wrap = layer("div", "cutscene");
   ui.appendChild(wrap);

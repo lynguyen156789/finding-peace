@@ -22,11 +22,23 @@
       ],
       "hotspots": [
         {
+          "id": "wardrobe",
+          "rect": [
+            339,
+            216,
+            248,
+            459
+          ],
+          "action": "wardrobe",
+          "textKey": "wardrobe.look",
+          "moment": "home.wardrobe"
+        },
+        {
           "id": "bed",
           "rect": [
             0,
-            435,
-            330,
+            434,
+            296,
             400
           ],
           "action": "sleep",
@@ -36,10 +48,10 @@
         {
           "id": "sofa",
           "rect": [
-            490,
-            485,
-            400,
-            270
+            572,
+            482,
+            372,
+            276
           ],
           "action": "watch",
           "textKey": "hotspot.sofa",
@@ -48,10 +60,10 @@
         {
           "id": "window",
           "rect": [
-            515,
-            155,
-            340,
-            320
+            593,
+            131,
+            344,
+            351
           ],
           "action": "look",
           "textKey": "hotspot.window",
@@ -60,9 +72,9 @@
         {
           "id": "tv",
           "rect": [
-            875,
-            425,
-            100,
+            934,
+            427,
+            152,
             310
           ],
           "action": "watch",
@@ -72,10 +84,10 @@
         {
           "id": "bookshelf",
           "rect": [
-            975,
-            295,
-            135,
-            365
+            1020,
+            255,
+            145,
+            420
           ],
           "action": "read",
           "textKey": "hotspot.bookshelf",
@@ -84,10 +96,10 @@
         {
           "id": "kitchen",
           "rect": [
-            1150,
+            1188,
             365,
-            590,
-            225
+            573,
+            227
           ],
           "action": "cook",
           "textKey": "hotspot.kitchen",
@@ -96,10 +108,10 @@
         {
           "id": "dining",
           "rect": [
-            1255,
-            590,
-            380,
-            230
+            1275,
+            593,
+            379,
+            220
           ],
           "action": "eat",
           "textKey": "hotspot.dining",
@@ -108,10 +120,10 @@
         {
           "id": "balcony",
           "rect": [
-            1730,
-            125,
-            380,
-            540
+            1734,
+            124,
+            379,
+            551
           ],
           "action": "water",
           "textKey": "hotspot.plant",
@@ -121,10 +133,10 @@
         {
           "id": "shoes",
           "rect": [
-            2120,
-            550,
-            105,
-            170
+            2118,
+            548,
+            107,
+            174
           ],
           "action": "outfit",
           "textKey": "hotspot.shoes",
@@ -136,7 +148,7 @@
             2230,
             120,
             74,
-            640
+            639
           ],
           "action": "go_out",
           "textKey": "hotspot.door",
@@ -145,17 +157,17 @@
       ],
       "sofa": {
         "sit": [
-          377,
-          333
+          419,
+          345
         ],
         "scale": 0.38
       },
       "tv": {
         "rect": [
-          505,
-          237,
+          536,
+          239,
           35,
-          77
+          71
         ],
         "mode": "card"
       }
@@ -170,12 +182,24 @@
       ],
       "hotspots": [
         {
+          "id": "wardrobe",
+          "rect": [
+            317,
+            203,
+            262,
+            431
+          ],
+          "action": "wardrobe",
+          "textKey": "wardrobe.look",
+          "moment": "home.wardrobe"
+        },
+        {
           "id": "bed",
           "rect": [
             0,
             400,
-            310,
-            350
+            262,
+            358
           ],
           "action": "sleep",
           "textKey": "hotspot.bed.rest",
@@ -184,10 +208,10 @@
         {
           "id": "bookshelf",
           "rect": [
-            475,
-            205,
-            160,
-            425
+            576,
+            207,
+            158,
+            420
           ],
           "action": "read",
           "textKey": "hotspot.bookshelf",
@@ -196,10 +220,10 @@
         {
           "id": "sofa",
           "rect": [
-            515,
-            460,
-            410,
-            290
+            599,
+            462,
+            393,
+            310
           ],
           "action": "watch",
           "textKey": "hotspot.sofa",
@@ -208,10 +232,10 @@
         {
           "id": "tv",
           "rect": [
-            925,
-            385,
-            205,
-            260
+            969,
+            383,
+            193,
+            262
           ],
           "action": "watch",
           "textKey": "hotspot.tv",
@@ -220,10 +244,10 @@
         {
           "id": "kitchen",
           "rect": [
-            1145,
-            305,
-            555,
-            235
+            1155,
+            303,
+            544,
+            241
           ],
           "action": "cook",
           "textKey": "hotspot.kitchen",
@@ -232,10 +256,10 @@
         {
           "id": "dining",
           "rect": [
-            1330,
-            540,
-            430,
-            250
+            1323,
+            544,
+            441,
+            269
           ],
           "action": "eat",
           "textKey": "hotspot.dining",
@@ -244,10 +268,10 @@
         {
           "id": "balcony",
           "rect": [
-            1710,
-            100,
-            330,
-            540
+            1709,
+            99,
+            448,
+            531
           ],
           "action": "water",
           "textKey": "hotspot.plant",
@@ -257,10 +281,10 @@
         {
           "id": "shoes",
           "rect": [
-            2105,
-            525,
-            110,
-            150
+            2104,
+            540,
+            107,
+            135
           ],
           "action": "outfit",
           "textKey": "hotspot.shoes",
@@ -269,10 +293,10 @@
         {
           "id": "door",
           "rect": [
-            2230,
-            130,
-            74,
-            590
+            2223,
+            117,
+            81,
+            641
           ],
           "action": "go_out",
           "textKey": "hotspot.door",
@@ -281,17 +305,17 @@
       ],
       "sofa": {
         "sit": [
-          400,
-          343
+          440,
+          347
         ],
         "scale": 0.38
       },
       "tv": {
         "rect": [
-          521,
-          217,
-          84,
-          56
+          545,
+          214,
+          81,
+          57
         ],
         "mode": "screen"
       }
@@ -306,12 +330,24 @@
       ],
       "hotspots": [
         {
+          "id": "wardrobe",
+          "rect": [
+            294,
+            220,
+            258,
+            438
+          ],
+          "action": "wardrobe",
+          "textKey": "wardrobe.look",
+          "moment": "home.wardrobe"
+        },
+        {
           "id": "bed",
           "rect": [
             0,
             430,
-            330,
-            380
+            262,
+            379
           ],
           "action": "sleep",
           "textKey": "hotspot.bed.rest",
@@ -320,10 +356,10 @@
         {
           "id": "sofa",
           "rect": [
-            455,
-            470,
-            440,
-            280
+            528,
+            469,
+            344,
+            282
           ],
           "action": "watch",
           "textKey": "hotspot.sofa",
@@ -332,10 +368,10 @@
         {
           "id": "window",
           "rect": [
-            605,
-            150,
-            205,
-            300
+            586,
+            124,
+            296,
+            344
           ],
           "action": "look",
           "textKey": "hotspot.window",
@@ -344,10 +380,10 @@
         {
           "id": "tv",
           "rect": [
-            895,
-            385,
-            200,
-            275
+            930,
+            383,
+            186,
+            276
           ],
           "action": "watch",
           "textKey": "hotspot.tv",
@@ -356,10 +392,10 @@
         {
           "id": "bookshelf",
           "rect": [
-            1085,
-            280,
-            115,
-            380
+            1109,
+            200,
+            121,
+            462
           ],
           "action": "read",
           "textKey": "hotspot.bookshelf",
@@ -368,10 +404,10 @@
         {
           "id": "kitchen",
           "rect": [
-            1235,
-            290,
-            540,
-            260
+            1251,
+            282,
+            531,
+            269
           ],
           "action": "cook",
           "textKey": "hotspot.kitchen",
@@ -380,10 +416,10 @@
         {
           "id": "dining",
           "rect": [
-            1300,
-            550,
-            390,
-            230
+            1309,
+            551,
+            393,
+            234
           ],
           "action": "eat",
           "textKey": "hotspot.dining",
@@ -392,10 +428,10 @@
         {
           "id": "balcony",
           "rect": [
-            1780,
-            120,
-            350,
-            530
+            1787,
+            90,
+            338,
+            558
           ],
           "action": "water",
           "textKey": "hotspot.plant",
@@ -405,9 +441,9 @@
         {
           "id": "shoes",
           "rect": [
-            2085,
-            515,
-            130,
+            2084,
+            513,
+            135,
             200
           ],
           "action": "outfit",
@@ -418,9 +454,9 @@
           "id": "door",
           "rect": [
             2230,
-            130,
+            117,
             74,
-            610
+            641
           ],
           "action": "go_out",
           "textKey": "hotspot.door",
@@ -429,17 +465,17 @@
       ],
       "sofa": {
         "sit": [
-          353,
-          330
+          388,
+          342
         ],
         "scale": 0.38
       },
       "tv": {
         "rect": [
-          509,
-          215,
-          88,
-          62
+          527,
+          214,
+          86,
+          63
         ],
         "mode": "screen"
       }

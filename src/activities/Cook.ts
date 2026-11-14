@@ -1,13 +1,14 @@
 import { Gender } from "../core/GameState";
 import { t } from "../core/i18n";
 import { Dialogue } from "../ui/Dialogue";
-import { fadeTo, openCutscene, preloadImages, wait, revealHome } from "./Cutscene";
+import { fadeTo, openCutscene, preloadImages, revealHome, wait } from "./Cutscene";
+import { playEating, prepareEating } from "./Eat";
 
 /**
  * Clip nấu ăn (cảnh bếp riêng), tự chạy từ đầu đến cuối, không có nút bỏ qua.
  * Mỗi lần nấu ngẫu nhiên một món. Chuỗi tranh chuyển mờ chậm:
  *   1 chuẩn bị → 2 chiên/xào (món mặn) hoặc 3 nấu nước (món canh/mì/cháo) → khay món thành phẩm.
- * Chỉ một câu độc thoại ở đầu (nói tên món), còn lại để hình kể.
+ * Nấu xong thì ăn và rửa bát luôn (playEating), cùng một lượt. Chỉ một câu độc thoại lúc nấu, một câu lúc ăn.
  */
 
 export interface Dish {
@@ -44,6 +45,7 @@ export function prepareCooking(gender: Gender): void {
   preloadImages([1, 2, 3].map((n) => stepFile(gender, n)));
   preloadImages(OWN_FRAME.map((id) => `cook-${gender}-${id}.webp`));
   preloadImages(DISHES.map(trayFile));
+  prepareEating(gender);
 }
 
 export async function runCooking(gender: Gender, dish: Dish, dialogue: Dialogue): Promise<() => Promise<void>> {
@@ -56,6 +58,7 @@ export async function runCooking(gender: Gender, dish: Dish, dialogue: Dialogue)
   await wait(1200);
   await show(trayFile(dish), 1600);
   await wait(1800);
+  await playEating({ wrap, black, show }, gender, dish, dialogue); // nấu xong thì ăn rồi rửa bát luôn
   await fadeTo(black, 1, 800);
 
   // Màn đang đen hoàn toàn: bên gọi cập nhật ngày/giờ rồi gọi reveal() để mờ về căn hộ.

@@ -8,8 +8,9 @@ import { t } from "../core/i18n";
 import { prepareWatering, runWatering } from "../activities/Watering";
 import { prepareSleep, runSleep } from "../activities/Sleep";
 import { runWatchTv } from "../activities/WatchTv";
-import { Dish, dishById, prepareCooking, randomDish, runCooking } from "../activities/Cook";
+import { prepareCooking, randomDish, runCooking } from "../activities/Cook";
 import { prepareEating, runEating } from "../activities/Eat";
+import { prepareWardrobe, runWardrobe } from "../activities/Wardrobe";
 import { Dialogue } from "../ui/Dialogue";
 import { ClockIcon } from "../ui/ClockIcon";
 
@@ -27,8 +28,6 @@ export class HomeScene extends Phaser.Scene {
   private dialogue!: Dialogue;
   private clock!: ClockIcon;
   private busy = false;
-  /** Món vừa nấu (để ăn đúng món đó); chưa nấu thì ăn món ngẫu nhiên. */
-  private lastDish: Dish | null = null;
 
   constructor() {
     super("Home");
@@ -41,6 +40,7 @@ export class HomeScene extends Phaser.Scene {
       prepareWatering(this.state.gender);
       prepareCooking(this.state.gender);
       prepareEating(this.state.gender);
+      prepareWardrobe(this.state.gender);
     }
     this.apt = aptData.apartments[String(this.state.apartment) as keyof typeof aptData.apartments];
 
@@ -109,16 +109,18 @@ export class HomeScene extends Phaser.Scene {
 
     if (h.action === "cook") {
       const dish = randomDish();
-      this.lastDish = dish;
       await this.doCutscene(h, () => runCooking(this.state.gender!, dish, this.dialogue));
       return;
     }
 
+    if (h.action === "wardrobe") {
+      await this.doCutscene(h, () => runWardrobe(this.state.gender!, this.dialogue));
+      return;
+    }
+
     if (h.action === "eat") {
-      const justCooked = this.lastDish !== null;
-      const dish = this.lastDish ?? dishById(randomDish().id);
-      await this.doCutscene(h, () => runEating(this.state.gender!, dish, this.dialogue, !justCooked));
-      this.lastDish = null;
+      const dish = randomDish();
+      await this.doCutscene(h, () => runEating(this.state.gender!, dish, this.dialogue));
       return;
     }
 

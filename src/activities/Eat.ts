@@ -2,7 +2,7 @@ import { Gender } from "../core/GameState";
 import { t } from "../core/i18n";
 import { Dialogue } from "../ui/Dialogue";
 import { Dish, trayFile } from "./Cook";
-import { fadeTo, openCutscene, preloadImages, wait, revealHome } from "./Cutscene";
+import { Cutscene, fadeTo, openCutscene, preloadImages, revealHome, wait } from "./Cutscene";
 
 /**
  * Clip ăn cơm rồi rửa bát (cảnh bếp riêng), tự chạy, không có nút bỏ qua.
@@ -17,16 +17,11 @@ export function prepareEating(gender: Gender): void {
   preloadImages([eatFile(gender), ...[1, 2, 3].map((n) => washFile(gender, n))]);
 }
 
-export async function runEating(gender: Gender, dish: Dish, dialogue: Dialogue, showTray = true): Promise<() => Promise<void>> {
+/** Phần ăn + rửa bát, chạy tiếp trên một cảnh đang mở (sau khi nấu hoặc đứng riêng). Không tự tắt màn. */
+export async function playEating(cs: Cutscene, gender: Gender, dish: Dish, dialogue: Dialogue): Promise<void> {
+  const { show } = cs;
   prepareEating(gender);
-  preloadImages([trayFile(dish)]);
-  const { wrap, black, show } = openCutscene();
-
-  if (showTray) {
-    await show(trayFile(dish), 800);
-    await wait(900);
-  }
-  await show(eatFile(gender), showTray ? 1400 : 800);
+  await show(eatFile(gender), 1400);
   await dialogue.show(t(`dish.${dish.id}.eat`));
   await wait(1500);
   await show(washFile(gender, 1), 1400); // ra bồn, rửa bát
@@ -35,9 +30,15 @@ export async function runEating(gender: Gender, dish: Dish, dialogue: Dialogue, 
   await wait(1400);
   await show(washFile(gender, 3), 1200); // úp bát lên giá
   await wait(1600);
-  await fadeTo(black, 1, 800);
+}
 
-  return async () => {
-    await revealHome(wrap, black, 700);
-  };
+/** Ăn riêng (bấm bàn ăn khi chưa vừa nấu): bắt đầu từ khay món. */
+export async function runEating(gender: Gender, dish: Dish, dialogue: Dialogue): Promise<() => Promise<void>> {
+  preloadImages([trayFile(dish)]);
+  const cs = openCutscene();
+  await cs.show(trayFile(dish), 800);
+  await wait(900);
+  await playEating(cs, gender, dish, dialogue);
+  await fadeTo(cs.black, 1, 800);
+  return () => revealHome(cs.wrap, cs.black, 700);
 }
