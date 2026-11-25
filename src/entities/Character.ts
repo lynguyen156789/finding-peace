@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import charData from "../../data/characters.json";
 import { Gender } from "../core/GameState";
+import { isReducedMotion } from "../core/Settings";
 
 export const CHARACTERS = charData.characters;
 
@@ -53,7 +54,7 @@ export class Character extends Phaser.GameObjects.Sprite {
 
   /** Thở nhẹ khi đứng yên: cao lên khoảng 1,2% rồi hạ xuống, chậm. Bỏ qua nếu người chơi bật giảm chuyển động. */
   private startBreathing(): void {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (isReducedMotion()) return;
     this.breathTween?.stop();
     this.breath.k = 1;
     this.breathTween = this.scene.tweens.add({

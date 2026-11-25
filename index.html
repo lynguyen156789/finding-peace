@@ -59,7 +59,20 @@
       #ui .card-name { font-size: 1.7cqw; text-align: center; }
       #ui .setup-start { width: 15cqw; font-size: 2.2cqw; }
 
+      /* Menu ngoài: nền tranh, tiêu đề và nút xếp dọc ở giữa. */
+      #ui .menu {
+        position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2.4cqw;
+        background: url(assets/ui/menu-bg.webp) center / cover no-repeat;
+      }
+      #ui .menu-title { width: 40%; font-size: 3cqw; text-align: center; }
+      #ui .menu-col { display: flex; flex-direction: column; align-items: center; gap: 1cqw; }
+      #ui .menu-btn { width: 17cqw; font-size: 2cqw; white-space: nowrap; }
+      #ui .menu-btn-wide { width: 25cqw; font-size: 1.35cqw; }
+      /* Đoạn giới thiệu nhiều dòng: khung cao hơn khung tiêu đề nên ảnh kéo giãn nhẹ theo chiều dọc. */
+      #ui .menu-about { width: 56%; aspect-ratio: 1280 / 400; padding: 0 6%; font-size: 2.2cqw; line-height: 1.45; text-align: center; }
+
       @media (prefers-reduced-motion: reduce) { #ui * { transition: none !important; animation: none !important; } }
+      #game.reduce-motion #ui * { transition: none !important; animation: none !important; }
     </style>
   </head>
   <body>

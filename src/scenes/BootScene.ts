@@ -1,7 +1,6 @@
 import Phaser from "phaser";
 import aptData from "../../data/apartments.json";
 import { createCharacterAnims, loadCharacterSheets } from "../entities/Character";
-import { loadGame } from "../core/Save";
 
 export const UI_IMAGES = ["tv-drama", "tv-cooking", "tv-weather"] as const;
 
@@ -18,8 +17,8 @@ export class BootScene extends Phaser.Scene {
 
   create(): void {
     createCharacterAnims(this);
-    const state = loadGame();
+    // Luôn qua menu ngoài; ?setup bỏ qua menu để vào thẳng màn chọn (dùng khi phát triển).
     const forceSetup = new URLSearchParams(window.location.search).has("setup");
-    this.scene.start(state.gender && state.apartment && !forceSetup ? "Home" : "Setup");
+    this.scene.start(forceSetup ? "Setup" : "Menu");
   }
 }

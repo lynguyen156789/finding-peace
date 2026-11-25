@@ -5,6 +5,10 @@ import Phaser from "phaser";
 import { BootScene } from "./scenes/BootScene";
 import { SetupScene } from "./scenes/SetupScene";
 import { HomeScene } from "./scenes/HomeScene";
+import { MenuScene } from "./scenes/MenuScene";
+import { applySettings } from "./core/Settings";
+
+applySettings();
 
 new Phaser.Game({
   type: Phaser.AUTO,
@@ -14,5 +18,5 @@ new Phaser.Game({
   backgroundColor: "#efe6d4",
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   input: { activePointers: 1 },
-  scene: [BootScene, SetupScene, HomeScene],
+  scene: [BootScene, MenuScene, SetupScene, HomeScene],
 });
