@@ -43,6 +43,9 @@ export function openCutscene(): Cutscene {
   const ui = document.getElementById("ui")!;
   const wrap = layer("div", "cutscene");
   ui.appendChild(wrap);
+  // Mọi tranh nằm chung một lớp "zoom": lớp này từ từ phóng to nên các tranh chồng nhau luôn khớp.
+  const zoom = layer("div", "cut-zoom");
+  wrap.appendChild(zoom);
   const black = layer("div", "cut-black");
   black.style.opacity = "0";
   wrap.appendChild(black);
@@ -52,7 +55,7 @@ export function openCutscene(): Cutscene {
     const img = layer("img") as HTMLImageElement;
     img.src = `${BASE}/${file}`;
     img.style.opacity = "0";
-    wrap.insertBefore(img, black);
+    zoom.appendChild(img);
     await fadeTo(img, 1, fadeMs);
   };
   return { wrap, black, show };

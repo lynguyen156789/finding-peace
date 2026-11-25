@@ -36,6 +36,11 @@ export class Character extends Phaser.GameObjects.Sprite {
   private moveTween?: Phaser.Tweens.Tween;
   private readonly id: Gender;
 
+  /** Hệ số cao thêm khi thở (1 = bình thường); gốc ở chân nên chân không trượt. */
+  private breath = { k: 1 };
+  private breathTween?: Phaser.Tweens.Tween;
+  private baseScale = 1;
+
   constructor(scene: Phaser.Scene, x: number, y: number, gender: Gender) {
     super(scene, x, y, `char-${gender}-front`, 0);
     this.id = gender;
@@ -43,6 +48,34 @@ export class Character extends Phaser.GameObjects.Sprite {
     scene.add.existing(this);
     this.play(`${gender}-idle`);
     this.refresh();
+    this.startBreathing();
+  }
+
+  /** Thở nhẹ khi đứng yên: cao lên khoảng 1,2% rồi hạ xuống, chậm. Bỏ qua nếu người chơi bật giảm chuyển động. */
+  private startBreathing(): void {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    this.breathTween?.stop();
+    this.breath.k = 1;
+    this.breathTween = this.scene.tweens.add({
+      targets: this.breath,
+      k: 1.012,
+      duration: 1900,
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.easeInOut",
+      onUpdate: () => this.applyScale(),
+    });
+  }
+
+  private stopBreathing(): void {
+    this.breathTween?.stop();
+    this.breathTween = undefined;
+    this.breath.k = 1;
+    this.applyScale();
+  }
+
+  private applyScale(): void {
+    this.setScale(this.baseScale, this.baseScale * this.breath.k);
   }
 
   /** Đi tới (x, y). Đi ngang dùng dáng nhìn ngang; đi xuống phía người chơi thì dùng dáng chính diện. */
@@ -55,11 +88,13 @@ export class Character extends Phaser.GameObjects.Sprite {
 
     this.setFlipX(!towardViewer && dx < 0);
     this.play(`${this.id}-walk-${towardViewer ? "front" : "side"}`, true);
+    this.stopBreathing(); // đang đi thì không thở
 
     return new Promise((resolve) => {
       const finish = () => {
         this.setFlipX(false);
         this.play(`${this.id}-idle`); // dừng lại thì quay mặt về phía người chơi
+        this.startBreathing();
         resolve();
       };
       this.moveTween = this.scene.tweens.add({
@@ -78,6 +113,7 @@ export class Character extends Phaser.GameObjects.Sprite {
   private refresh(): void {
     this.setDepth(this.y);
     // Gần màn hình hơn thì to hơn một chút.
-    this.setScale(0.44 + ((this.y - 410) / 280) * 0.16);
+    this.baseScale = 0.44 + ((this.y - 410) / 280) * 0.16;
+    this.applyScale();
   }
 }
